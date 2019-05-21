@@ -6,7 +6,7 @@ main = do
   putStrLn "This is main."
   let b1 = True
   let b2 = False
-  putStrLn("Bool true: " ++ show b1 ++ "; bool false: " ++ show b2)
+  putStrLn("Bool true: \"" ++ show b1 ++ "\"; bool false: \"" ++ show b2 ++ "\"")
   putStrLn(show b1 ++ " xor " ++ show b1 ++ " = " ++ show (xorbool b1 b1))
   putStrLn(show b1 ++ " xor " ++ show b2 ++ " = " ++ show (xorbool b1 b2))
   putStrLn(show b2 ++ " xor " ++ show b1 ++ " = " ++ show (xorbool b2 b1))
@@ -22,6 +22,7 @@ main = do
   putStrLn(s1 ++ " xor " ++ s1 ++ " = " ++ show (xorbool s1 s1))
   putStrLn(s1 ++ " xor " ++ s2 ++ " = " ++ show (xorbool s1 s2))
   
+  print number1
   print number2
 
 

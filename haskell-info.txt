@@ -1,0 +1,10 @@
+Haskell hello world
+
+* Install Haskell Platform: https://www.haskell.org/downloads/#platform
+* Write Haskell program.
+* Compile with (Windows)
+    ghc --make Main.hs -o main.exe
+  (Linux)
+    ghc --make Main.hs -o main
+  Assumptions: Main.hs includes the main program.
+  
