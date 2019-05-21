@@ -7,4 +7,4 @@ Haskell hello world
   (Linux)
     ghc --make Main.hs -o main
   Assumptions: Main.hs includes the main program.
-  
+  An executable must have module name "Main" and a function called "main".
