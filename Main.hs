@@ -62,6 +62,13 @@ main = do
   putStrLn ("Same: " ++ show (first_of_second_of_list (list_of_pairs)))
   
   --
+  putStrLn "\nMy map."
+  let list1 = 3:6:2:7:8:4:[]
+  putStrLn ("Square: " ++ show (list1))
+  putStrLn ("map:    " ++ show (map square list1))
+  putStrLn ("my_map: " ++ show (my_map square list1))
+  
+  --
   putStrLn "\nEnd of program."
 
 
@@ -90,10 +97,13 @@ factorial n = n * factorial (n-1)
 
 -- Fibonacci function.
 fibonacci n =
-  case n of
-    1 -> 1
-    2 -> 1
-    _ -> fibonacci (n-2) + fibonacci (n-1)
+  if n <= 0 then
+    0
+  else
+    case n of
+      1 -> 1
+      2 -> 1
+      _ -> fibonacci (n-2) + fibonacci (n-1)
     
 -- Multiplication only using addition.
 {-
@@ -115,6 +125,9 @@ mult a b =
 first_of_second_of_list list = fst (head (tail (list)))
 
 
+my_map f [] = []
+my_map f (x:xs) =
+  f x : my_map f xs
 
 {-
 import Hello
