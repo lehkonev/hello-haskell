@@ -4,8 +4,26 @@ import SimpleBool
 
 main = do
   putStrLn "This is main.\n"
+  let action_list = ("b", simplebool_xor) : ("c", calculations) : []
   
   --
+  simplebool_xor
+  
+  --
+  calculations
+  
+  --
+  lists_of_pairs
+  
+  --
+  my_mapping
+  
+  --
+  putStrLn "\nEnd of program."
+
+----
+
+simplebool_xor = do
   putStrLn "SimpleBool xor:"
   let b1 = True
   let b2 = False
@@ -25,7 +43,7 @@ main = do
   putStrLn(s1 ++ " xor " ++ s1 ++ " = " ++ show (xorbool s1 s1))
   putStrLn(s1 ++ " xor " ++ s2 ++ " = " ++ show (xorbool s1 s2))
   
-  --
+calculations = do
   putStrLn "\nCalculations:"
   
   print number1
@@ -49,7 +67,7 @@ main = do
   putStrLn ("Multiplication, using only addition:")
   putStrLn ("0*67=" ++ show (mult 0 67) ++ "; 45*0=" ++ show (mult 45 0) ++ "; 5*6=" ++ show (mult 5 6))
   
-  --
+lists_of_pairs = do
   putStrLn "\nLists of pairs:"
   
   let list_of_pairs = [(5,'b'),(1,'c'),(6,'a')]
@@ -61,17 +79,13 @@ main = do
   putStrLn ("Same: " ++ show (fst (head (tail (list_of_pairs)))))
   putStrLn ("Same: " ++ show (first_of_second_of_list (list_of_pairs)))
   
-  --
-  putStrLn "\nMy map."
+my_mapping = do
+  putStrLn "\nMy map:"
   let list1 = 3:6:2:7:8:4:[]
   putStrLn ("Square: " ++ show (list1))
   putStrLn ("map:    " ++ show (map square list1))
   putStrLn ("my_map: " ++ show (my_map square list1))
   
-  --
-  putStrLn "\nEnd of program."
-
-
 -- Helper functions:
 
 -- Construct a number.
