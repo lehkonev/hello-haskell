@@ -5,8 +5,10 @@ import Interactivity
 
 main = do
   putStrLn "This is main.\n"
-  
+
   input_asker
+
+  guesser
 
   simplebool_xor
   calculations
