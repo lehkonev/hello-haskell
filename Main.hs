@@ -1,9 +1,12 @@
 module Main where
 
 import SimpleBool
+import Interactivity
 
 main = do
   putStrLn "This is main.\n"
+  
+  input_asker
 
   simplebool_xor
   calculations
