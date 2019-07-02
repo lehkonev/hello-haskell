@@ -8,6 +8,9 @@ main = do
 
   input_asker
 
+  word_list <- word_asker
+  word_printer(word_list)
+
   guesser
 
   simplebool_xor
