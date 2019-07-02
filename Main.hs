@@ -88,7 +88,10 @@ my_mapping = do
   putStrLn ("map:    " ++ show (map square list1))
   putStrLn ("my_map: " ++ show (my_map square list1))
 
+------------------------------------------------------------------------------
 -- Helper functions:
+
+-- Number functions: ------------------
 
 -- Construct a number.
 number1 :: Num a => a
@@ -143,6 +146,8 @@ mult a b =
     if b < 0
         then 0 - mult a (-b)
         else a + mult a (b-1)
+
+-- Other functions: -------------------
 
 --first_of_second_of_list :: [a] -> b -- How to type?
 first_of_second_of_list list = fst (head (tail (list)))
