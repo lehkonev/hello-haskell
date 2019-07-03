@@ -67,6 +67,16 @@ calculations = do
   putStrLn ("Multiplication, using only addition:")
   putStrLn ("0*67=" ++ show (mult 0 67) ++ "; 45*0=" ++ show (mult 45 0) ++ "; 5*6=" ++ show (mult 5 6))
 
+  putStrLn ("\nMore number exercises:")
+  number_list <- number_asker
+  putStr ("List of numbers: ")
+  print (number_list)
+  let number_sum = foldr (+) 0 number_list
+  putStrLn ("Sum of numbers: " ++ show (number_sum))
+  let number_product = foldr (*) 1 number_list
+  putStrLn ("Product of numbers: " ++ show (number_product))
+  factorials (number_list)
+
 --
 lists_of_pairs = do
   putStrLn "\nLists of pairs:"
@@ -115,9 +125,18 @@ signum x =
       else 0
 
 -- Factorial function, recursive.
+-- factorial limits its parameter to an Integral. It takes a value of that
+-- type as a parameter and returns a value of that same type.
 factorial :: (Integral a) => a -> a
 factorial 1 = 1
 factorial n = n * factorial (n-1)
+
+-- Print several factorials.
+factorials :: [Integer] -> IO ()
+factorials [] = return ()
+factorials (n:ns) = do
+  putStrLn ("Factorial of " ++ show (n) ++ ": " ++ show (factorial (n)))
+  factorials (ns)
 
 -- Fibonacci function.
 fibonacci :: (Integral a) => a -> a

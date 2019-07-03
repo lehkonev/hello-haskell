@@ -3,6 +3,7 @@ module Interactivity (
   word_asker,
   word_printer,
   guesser,
+  number_asker,
   prompt)
     where
 
@@ -84,6 +85,15 @@ do_guessing num = do
           else do
             putStrLn ("You win!")
 
+number_asker :: IO [Integer]
+number_asker = do
+  maybe_int <- prompt_int("Give an integer: ")
+  if (maybe_int < 1)
+    then return []
+    else do
+      rest <- number_asker
+      return (maybe_int : rest)
+
 --------------------------------------------------------------------------------
 -- Helper functions:
 
@@ -92,3 +102,15 @@ prompt text = do
   putStr text
   hFlush stdout
   getLine
+
+prompt_int :: String -> IO (Integer)
+prompt_int text = do
+  putStrLn("Type of prompt_int: " ++ (show (typeOf prompt_int)))
+  putStr text
+  hFlush stdout
+  maybe_int <- getLine
+  if maybe_int == ""
+    then return 0
+    else do
+      let int = (read maybe_int :: Integer)
+      return int
