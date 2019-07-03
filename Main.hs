@@ -46,26 +46,24 @@ simplebool_xor = do
 calculations = do
   putStrLn "\nCalculations:"
 
-  print number1
-  putStrLn ("Square of " ++ show number1 ++ ": " ++ show (square number1))
-  putStrLn ("Square of 5: " ++ show (square 5))
+  putStrLn ("Simple number constructor: " ++ show number1)
 
-  putStrLn ("Factorial of 5: " ++ show (factorial 5))
-  putStrLn ("Factorial of 7: " ++ show (factorial 7))
-
-  putStrLn ("Multiplication, using only addition:")
-  putStrLn ("0*67=" ++ show (mult 0 67) ++ "; 45*0=" ++ show (mult 45 0) ++ "; 5*6=" ++ show (mult 5 6))
-
-  putStrLn ("\nMore number exercises:")
   number_list <- number_asker
   putStr ("List of numbers: ")
   print (number_list)
   let number_sum = foldr (+) 0 number_list
   putStrLn ("Sum of numbers: " ++ show (number_sum))
+  let number_sum = foldr (-) 0 number_list
+  putStrLn ("Difference-r of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (a - (b - (c - 0)))")
+  let number_sum = foldl (-) 0 number_list
+  putStrLn ("Difference-l of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (((0 - a) - b) - c)")
   let number_product = foldr (*) 1 number_list
   putStrLn ("Product of numbers: " ++ show (number_product))
-  factorials (number_list)
-  fibonaccis (number_list)
+  let number_mult = foldr (mult) 1 number_list
+  putStrLn ("Product of numbers: " ++ show (number_mult) ++ " (using only summing)")
+  number_operation_series "Factorial" factorial number_list
+  number_operation_series "Fibonacci" fibonacci number_list
+  number_operation_series "Square" square number_list
 
 --
 lists_of_pairs = do
@@ -121,13 +119,6 @@ factorial :: (Integral a) => a -> a
 factorial 1 = 1
 factorial n = n * factorial (n-1)
 
--- Print several factorials.
-factorials :: [Integer] -> IO ()
-factorials [] = return ()
-factorials (n:ns) = do
-  putStrLn ("Factorial of " ++ show (n) ++ ": " ++ show (factorial (n)))
-  factorials (ns)
-
 -- Fibonacci function.
 fibonacci :: (Integral a) => a -> a
 fibonacci n =
@@ -139,13 +130,6 @@ fibonacci n =
       2 -> 1
       _ -> fibonacci (n-2) + fibonacci (n-1)
 
--- Print several fibonaccis.
-fibonaccis :: [Integer] -> IO ()
-fibonaccis [] = return ()
-fibonaccis (n:ns) = do
-  putStrLn ("Fibonacci of " ++ show (n) ++ ": " ++ show (fibonacci (n)))
-  fibonaccis (ns)
-
 --mult :: (Integral a) => a -> a
 mult a 0 = 0
 mult a 1 = a
@@ -153,6 +137,16 @@ mult a b =
     if b < 0
         then 0 - mult a (-b)
         else a + mult a (b-1)
+
+-- This function performs the given operation to all numbers in number_list.
+--number_operation_series :: String -> {- How is this type stated? -} -> [Integer] -> IO ()
+-- typeOf doesn't work:
+--putStrLn("Type of number_operation_series: " ++ (show (typeOf number_operation_series)))
+number_operation_series name operation [] = return ()
+number_operation_series name operation (number:number_list) = do
+  let result = operation number
+  putStrLn (name ++ " of " ++ show number ++ ": " ++ show result)
+  number_operation_series name operation number_list
 
 -- Other functions: -------------------
 

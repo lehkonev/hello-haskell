@@ -105,7 +105,6 @@ prompt text = do
 
 prompt_int :: String -> IO (Integer)
 prompt_int text = do
-  putStrLn("Type of prompt_int: " ++ (show (typeOf prompt_int)))
   putStr text
   hFlush stdout
   maybe_int <- getLine
