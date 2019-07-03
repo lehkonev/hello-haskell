@@ -43,33 +43,42 @@ ask_for_words = do
 
 word_printer :: [String] -> IO ()
 word_printer word_list = do
-  putStrLn("Word printer:")
-  putStrLn("Type of word_list: " ++ (show (typeOf word_list)) ++ " (not IO)")
-  putStrLn("Word list concatenated into a long string:")
-  let char_list = foldr (++) "" word_list
-  putStrLn(char_list)
-  putStrLn("Word list, newline-separated:")
-  let char_list2 = unlines word_list
-  putStrLn(char_list2)
+  if word_list == []
+    then do
+      putStrLn "There are no words."
+      putStrLn ""
+    else do
+      putStrLn("Word printer:")
+      putStrLn("Type of word_list: " ++ (show (typeOf word_list)) ++ " (not IO)")
+      putStrLn("Word list concatenated into a long string:")
+      let char_list = foldr (++) "" word_list
+      putStrLn(char_list)
+      putStrLn("Word list, newline-separated:")
+      let char_list2 = unlines word_list
+      putStrLn(char_list2)
 
 guesser :: IO ()
 guesser = do
   putStrLn ("Number guesser:")
   hSetBuffering stdin LineBuffering
   num_str <- prompt ("Type a number between 1 and 100: ")
-  let num = read (num_str) :: Int
-  if (1 <= num) && (num <= 100)
+  if num_str == ""
     then do
-      putStrLn ("Guess a number between 1 and 100. (Type 0 or less to stop guessing.)")
-      do_guessing (num)
+      putStrLn "Quitting number guesser."
+      return ()
     else do
-      putStrLn ("Invalid number. Stopping.")
-  putStrLn ("")
+      let num = read (num_str) :: Integer
+      if (1 <= num) && (num <= 100)
+        then do
+          putStrLn ("Guess a number between 1 and 100. (Type 0 or less to stop guessing.)")
+          do_guessing (num)
+        else do
+          putStrLn ("Invalid number. Stopping.")
 
-do_guessing :: Int -> IO ()
+do_guessing :: Integer -> IO ()
 do_guessing num = do
   user_input <- prompt ("Guess: ")
-  let guess = read user_input :: Int
+  let guess = read user_input :: Integer
   if guess < 1
     then do
       putStrLn ("Stopped guessing.")

@@ -18,11 +18,13 @@ main = do
   lists_of_pairs
   my_mapping
 
-  putStrLn "\nEnd of program."
+  putStrLn ""
+  putStrLn "End of program."
 
 ----
 
 simplebool_xor = do
+  putStrLn ""
   putStrLn "SimpleBool xor:"
   let b1 = True
   let b2 = False
@@ -44,7 +46,8 @@ simplebool_xor = do
 
 --
 calculations = do
-  putStrLn "\nCalculations:"
+  putStrLn ""
+  putStrLn "Calculations:"
 
   putStrLn ("Simple number constructor: " ++ show number1)
 
@@ -67,7 +70,8 @@ calculations = do
 
 --
 lists_of_pairs = do
-  putStrLn "\nLists of pairs:"
+  putStrLn ""
+  putStrLn "Lists of pairs:"
 
   let list_of_pairs = [(5,'b'),(1,'c'),(6,'a')]
   let list_result1 = fst (head (tail (list_of_pairs)))
@@ -80,11 +84,12 @@ lists_of_pairs = do
 
 --
 my_mapping = do
-  putStrLn "\nMy map:"
+  putStrLn ""
+  putStrLn "My map:"
   let list1 = 3:6:2:7:8:4:[]
-  putStrLn ("Square: " ++ show (list1))
-  putStrLn ("map:    " ++ show (map square list1))
-  putStrLn ("my_map: " ++ show (my_map square list1))
+  putStrLn ("Unsquared: " ++ show (list1))
+  putStrLn ("map:       " ++ show (map square list1))
+  putStrLn ("my_map:    " ++ show (my_map square list1))
 
 ------------------------------------------------------------------------------
 -- Helper functions:
