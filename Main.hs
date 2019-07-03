@@ -146,15 +146,6 @@ fibonaccis (n:ns) = do
   putStrLn ("Fibonacci of " ++ show (n) ++ ": " ++ show (fibonacci (n)))
   fibonaccis (ns)
 
--- Multiplication only using addition.
-{-
-mult a b =
-  case a of
-    0 -> 0
-    1 -> b
-    _ -> b + mult (a-1 b)
--}
-
 --mult :: (Integral a) => a -> a
 mult a 0 = 0
 mult a 1 = a
@@ -172,11 +163,3 @@ first_of_second_of_list list = fst (head (tail (list)))
 my_map f [] = []
 my_map f (x:xs) =
   f x : my_map f xs
-
-{-
-import Hello
-
-main = do
-  putStrLn "This is main."
-  hello
--}
