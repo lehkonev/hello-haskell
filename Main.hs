@@ -53,17 +53,6 @@ calculations = do
   putStrLn ("Factorial of 5: " ++ show (factorial 5))
   putStrLn ("Factorial of 7: " ++ show (factorial 7))
 
-  putStrLn ("Fibonacci sequences of 1 to 9:")
-  putStrLn (show (fibonacci(1)))
-  print (fibonacci(2))
-  print (fibonacci(3))
-  print (fibonacci(4))
-  print (fibonacci(5))
-  print (fibonacci(6))
-  print (fibonacci(7))
-  print (fibonacci(8))
-  print (fibonacci(9))
-
   putStrLn ("Multiplication, using only addition:")
   putStrLn ("0*67=" ++ show (mult 0 67) ++ "; 45*0=" ++ show (mult 45 0) ++ "; 5*6=" ++ show (mult 5 6))
 
@@ -76,6 +65,7 @@ calculations = do
   let number_product = foldr (*) 1 number_list
   putStrLn ("Product of numbers: " ++ show (number_product))
   factorials (number_list)
+  fibonaccis (number_list)
 
 --
 lists_of_pairs = do
@@ -148,6 +138,13 @@ fibonacci n =
       1 -> 1
       2 -> 1
       _ -> fibonacci (n-2) + fibonacci (n-1)
+
+-- Print several fibonaccis.
+fibonaccis :: [Integer] -> IO ()
+fibonaccis [] = return ()
+fibonaccis (n:ns) = do
+  putStrLn ("Fibonacci of " ++ show (n) ++ ": " ++ show (fibonacci (n)))
+  fibonaccis (ns)
 
 -- Multiplication only using addition.
 {-
