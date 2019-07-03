@@ -144,9 +144,11 @@ mult a b =
         else a + mult a (b-1)
 
 -- This function performs the given operation to all numbers in number_list.
---number_operation_series :: String -> {- How is this type stated? -} -> [Integer] -> IO ()
--- typeOf doesn't work:
---putStrLn("Type of number_operation_series: " ++ (show (typeOf number_operation_series)))
+-- The functions (this far) that could be in the operation variable work with
+-- non-Integers (like Ints), but I assume since the numbers number_list are
+-- limited to Integers, the type of the function needs to be limited to
+-- Integers too.
+number_operation_series :: String -> (Integer -> Integer) -> [Integer] -> IO ()
 number_operation_series name operation [] = return ()
 number_operation_series name operation (number:number_list) = do
   let result = operation number
