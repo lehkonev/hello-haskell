@@ -71,6 +71,7 @@ calculations = do
     else do
       putStr ("  List of numbers: ")
       print (number_list)
+      putStrLn ("  Filter the rest according to first (smaller than): " ++ show (filter (<(head number_list)) (tail number_list)))
       let number_sum = foldr (+) 0 number_list
       putStrLn ("  Sum of numbers: " ++ show (number_sum))
       let number_sum = foldr (-) 0 number_list
