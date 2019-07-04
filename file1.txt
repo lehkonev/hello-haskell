@@ -1,0 +1,12 @@
+﻿This is a sentence.
+
+This is a list:
+- a
+- b
+- c
+- å
+- ä
+- ö
+- lambda: λ
+- mu: µ
+- en-dash: –
