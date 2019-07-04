@@ -1,9 +1,16 @@
 module Main where
 
+-- Mine:
 import SimpleBool
 import Interactivity
 
+-- Built-in:
+import GHC.IO.Encoding
+
+
+main :: IO()
 main = do
+  setLocaleEncoding utf8 -- This is a must. I'm surprised åäö worked without.
   putStrLn "This is main.\n"
 
   input_asker
@@ -17,6 +24,7 @@ main = do
   calculations
   lists_of_pairs
   my_mapping
+  lambdas
 
   putStrLn ""
   putStrLn "End of program."
@@ -67,7 +75,7 @@ calculations = do
   number_operation_series "  Factorial" factorial number_list
   number_operation_series "  Fibonacci" fibonacci number_list
   number_operation_series "  Square" square number_list
-  
+
   let abc = [1,2,0] :: [Float]
   putStrLn ("  For a list of coefficients " ++ show abc ++ ", the roots are " ++ show (roots abc) ++ ".")
 
@@ -96,6 +104,24 @@ my_mapping = do
   putStrLn "And then:"
   putStrLn ("  Map factorial: " ++ show (map factorial list1))
   putStrLn ("  Map fibonacci: " ++ show (map fibonacci list1))
+
+--
+lambdas = do
+  putStrLn "\nLambdas:"
+
+  -- λx.x*x
+  --   λx. : take value x
+  --   x*x : multiply x with itself
+
+  let sqr = \x -> x*x
+  putStrLn "  λx.x*x"
+  putStrLn "    sqr = \\x -> x*x"
+  putStrLn ("    sqr 5 = " ++ show (sqr 5))
+
+  let some_f = \x y -> 2*x + y
+  putStrLn "  λxλy.2*x+y"
+  putStrLn "    some_f = \\x y -> 2*x + y"
+  putStrLn ("    some_f 5 4 = " ++ show (some_f 5 4))
 
 ------------------------------------------------------------------------------
 -- Helper functions:
