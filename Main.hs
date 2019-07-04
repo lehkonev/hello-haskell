@@ -60,21 +60,24 @@ calculations = do
   putStrLn ("  Simple number constructor: " ++ show number1)
 
   number_list <- number_asker
-  putStr ("  List of numbers: ")
-  print (number_list)
-  let number_sum = foldr (+) 0 number_list
-  putStrLn ("  Sum of numbers: " ++ show (number_sum))
-  let number_sum = foldr (-) 0 number_list
-  putStrLn ("  Difference-r of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (a - (b - (c - 0)))")
-  let number_sum = foldl (-) 0 number_list
-  putStrLn ("  Difference-l of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (((0 - a) - b) - c)")
-  let number_product = foldr (*) 1 number_list
-  putStrLn ("  Product of numbers: " ++ show (number_product))
-  let number_mult = foldr (mult) 1 number_list
-  putStrLn ("  Product of numbers: " ++ show (number_mult) ++ " (using only summing)")
-  number_operation_series "  Factorial" factorial number_list
-  number_operation_series "  Fibonacci" fibonacci number_list
-  number_operation_series "  Square" square number_list
+  if number_list == []
+    then putStrLn "  There are no numbers."
+    else do
+      putStr ("  List of numbers: ")
+      print (number_list)
+      let number_sum = foldr (+) 0 number_list
+      putStrLn ("  Sum of numbers: " ++ show (number_sum))
+      let number_sum = foldr (-) 0 number_list
+      putStrLn ("  Difference-r of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (a - (b - (c - 0)))")
+      let number_sum = foldl (-) 0 number_list
+      putStrLn ("  Difference-l of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (((0 - a) - b) - c)")
+      let number_product = foldr (*) 1 number_list
+      putStrLn ("  Product of numbers: " ++ show (number_product))
+      let number_mult = foldr (mult) 1 number_list
+      putStrLn ("  Product of numbers: " ++ show (number_mult) ++ " (using only summing)")
+      number_operation_series "  Factorial" factorial number_list
+      number_operation_series "  Fibonacci" fibonacci number_list
+      number_operation_series "  Square" square number_list
 
   let abc = [1,2,0] :: [Float]
   putStrLn ("  For a list of coefficients " ++ show abc ++ ", the roots are " ++ show (roots abc) ++ ".")
