@@ -51,12 +51,15 @@ word_printer word_list = do
       putStrLn("Word printer:")
       putStrLn("  -- Type of word_list: " ++ (show (typeOf word_list)) ++ " (not IO) --")
       putStrLn("  Word list concatenated into a long string:")
-      let char_list = foldr (++) "" word_list
-      putStrLn("    " ++ char_list)
+      --let char_list = foldr (++) "" word_list
+      putStrLn("    " ++ (foldr (++) "" word_list))
       putStrLn("  Word list, newline-separated:")
+      {-
       let char_list2 = map ("    " ++) word_list
       let char_list3 = unlines char_list2
       putStrLn(char_list3)
+      -}
+      putStrLn (unlines (map ("    " ++) word_list))
 
 guesser :: IO ()
 guesser = do
