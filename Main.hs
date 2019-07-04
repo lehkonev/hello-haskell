@@ -90,6 +90,9 @@ my_mapping = do
   putStrLn ("Unsquared: " ++ show (list1))
   putStrLn ("map:       " ++ show (map square list1))
   putStrLn ("my_map:    " ++ show (my_map square list1))
+  putStrLn "And then:"
+  putStrLn ("Map factorial: " ++ show (map factorial list1))
+  putStrLn ("Map fibonacci: " ++ show (map fibonacci list1))
 
 ------------------------------------------------------------------------------
 -- Helper functions:
