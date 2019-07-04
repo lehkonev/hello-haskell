@@ -26,6 +26,8 @@ main = do
   my_mapping
   lambdas
 
+  file_reading
+
   putStrLn ""
   putStrLn "End of program."
 
@@ -125,6 +127,15 @@ lambdas = do
   putStrLn "  λxλy.2*x+y"
   putStrLn "    some_f = \\x y -> 2*x + y"
   putStrLn ("    some_f 5 4 = " ++ show (some_f 5 4))
+
+--
+file_reading = do
+  putStrLn "\nFile-reading:"
+  -- Note: the file needs to be utf8-encoded. And it still doesn't print åäö well.
+  file_content <- readFile "file1.txt"
+  putStrLn "  Contents of the file:"
+  print file_content
+  putStrLn "  End of file."
 
 ------------------------------------------------------------------------------
 -- Helper functions:
