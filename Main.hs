@@ -268,7 +268,7 @@ roots abc =
 
 -- Other functions: -------------------
 
---first_of_second_of_list :: [a] -> b -- How to type?
+first_of_second_of_list :: [(a,b)] -> a
 first_of_second_of_list list = fst (head (tail (list)))
 
 
