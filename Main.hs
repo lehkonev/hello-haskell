@@ -28,45 +28,45 @@ simplebool_xor = do
   putStrLn "SimpleBool xor:"
   let b1 = True
   let b2 = False
-  putStrLn("Bool true: \"" ++ show b1 ++ "\"; bool false: \"" ++ show b2 ++ "\"")
-  putStrLn(show b1 ++ " xor " ++ show b1 ++ " = " ++ show (xorbool b1 b1))
-  putStrLn(show b1 ++ " xor " ++ show b2 ++ " = " ++ show (xorbool b1 b2))
-  putStrLn(show b2 ++ " xor " ++ show b1 ++ " = " ++ show (xorbool b2 b1))
-  putStrLn(show b2 ++ " xor " ++ show b2 ++ " = " ++ show (xorbool b2 b2))
+  putStrLn("  Bool true: \"" ++ show b1 ++ "\"; bool false: \"" ++ show b2 ++ "\"")
+  putStrLn("  " ++ show b1 ++ " xor " ++ show b1 ++ " = " ++ show (xorbool b1 b1))
+  putStrLn("  " ++ show b1 ++ " xor " ++ show b2 ++ " = " ++ show (xorbool b1 b2))
+  putStrLn("  " ++ show b2 ++ " xor " ++ show b1 ++ " = " ++ show (xorbool b2 b1))
+  putStrLn("  " ++ show b2 ++ " xor " ++ show b2 ++ " = " ++ show (xorbool b2 b2))
 
   let n1 = 4
   let n2 = 6
-  putStrLn(show n1 ++ " xor " ++ show n1 ++ " = " ++ show (xorbool n1 n1))
-  putStrLn(show n1 ++ " xor " ++ show n2 ++ " = " ++ show (xorbool n1 n2))
+  putStrLn("  " ++ show n1 ++ " xor " ++ show n1 ++ " = " ++ show (xorbool n1 n1))
+  putStrLn("  " ++ show n1 ++ " xor " ++ show n2 ++ " = " ++ show (xorbool n1 n2))
 
   let s1 = "aa"
   let s2 = "bee"
-  putStrLn(s1 ++ " xor " ++ s1 ++ " = " ++ show (xorbool s1 s1))
-  putStrLn(s1 ++ " xor " ++ s2 ++ " = " ++ show (xorbool s1 s2))
+  putStrLn("  " ++ s1 ++ " xor " ++ s1 ++ " = " ++ show (xorbool s1 s1))
+  putStrLn("  " ++ s1 ++ " xor " ++ s2 ++ " = " ++ show (xorbool s1 s2))
 
 --
 calculations = do
   putStrLn ""
   putStrLn "Calculations:"
 
-  putStrLn ("Simple number constructor: " ++ show number1)
+  putStrLn ("  Simple number constructor: " ++ show number1)
 
   number_list <- number_asker
-  putStr ("List of numbers: ")
+  putStr ("  List of numbers: ")
   print (number_list)
   let number_sum = foldr (+) 0 number_list
-  putStrLn ("Sum of numbers: " ++ show (number_sum))
+  putStrLn ("  Sum of numbers: " ++ show (number_sum))
   let number_sum = foldr (-) 0 number_list
-  putStrLn ("Difference-r of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (a - (b - (c - 0)))")
+  putStrLn ("  Difference-r of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (a - (b - (c - 0)))")
   let number_sum = foldl (-) 0 number_list
-  putStrLn ("Difference-l of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (((0 - a) - b) - c)")
+  putStrLn ("  Difference-l of numbers: " ++ show (number_sum) ++ " -- if [a,b,c] then (((0 - a) - b) - c)")
   let number_product = foldr (*) 1 number_list
-  putStrLn ("Product of numbers: " ++ show (number_product))
+  putStrLn ("  Product of numbers: " ++ show (number_product))
   let number_mult = foldr (mult) 1 number_list
-  putStrLn ("Product of numbers: " ++ show (number_mult) ++ " (using only summing)")
-  number_operation_series "Factorial" factorial number_list
-  number_operation_series "Fibonacci" fibonacci number_list
-  number_operation_series "Square" square number_list
+  putStrLn ("  Product of numbers: " ++ show (number_mult) ++ " (using only summing)")
+  number_operation_series "  Factorial" factorial number_list
+  number_operation_series "  Fibonacci" fibonacci number_list
+  number_operation_series "  Square" square number_list
 
 --
 lists_of_pairs = do
@@ -76,23 +76,23 @@ lists_of_pairs = do
   let list_of_pairs = [(5,'b'),(1,'c'),(6,'a')]
   let list_result1 = fst (head (tail (list_of_pairs)))
   let str_result1 = show list_of_pairs ++ " -> " ++ show list_result1
-  putStrLn (str_result1)
+  putStrLn ("  " ++ str_result1)
 
-  putStrLn ("Same: " ++ show (first_of_second_of_list (list_of_pairs)))
-  putStrLn ("Same: " ++ show (fst (head (tail (list_of_pairs)))))
-  putStrLn ("Same: " ++ show (first_of_second_of_list (list_of_pairs)))
+  putStrLn ("  Same: " ++ show (first_of_second_of_list (list_of_pairs)))
+  putStrLn ("  Same: " ++ show (fst (head (tail (list_of_pairs)))))
+  putStrLn ("  Same: " ++ show (first_of_second_of_list (list_of_pairs)))
 
 --
 my_mapping = do
   putStrLn ""
   putStrLn "My map:"
   let list1 = 3:6:2:7:8:4:[]
-  putStrLn ("Unsquared: " ++ show (list1))
-  putStrLn ("map:       " ++ show (map square list1))
-  putStrLn ("my_map:    " ++ show (my_map square list1))
+  putStrLn ("  Unsquared: " ++ show (list1))
+  putStrLn ("  map:       " ++ show (map square list1))
+  putStrLn ("  my_map:    " ++ show (my_map square list1))
   putStrLn "And then:"
-  putStrLn ("Map factorial: " ++ show (map factorial list1))
-  putStrLn ("Map fibonacci: " ++ show (map fibonacci list1))
+  putStrLn ("  Map factorial: " ++ show (map factorial list1))
+  putStrLn ("  Map fibonacci: " ++ show (map fibonacci list1))
 
 ------------------------------------------------------------------------------
 -- Helper functions:
