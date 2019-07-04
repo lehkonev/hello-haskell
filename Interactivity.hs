@@ -54,8 +54,9 @@ word_printer word_list = do
       let char_list = foldr (++) "" word_list
       putStrLn("    " ++ char_list)
       putStrLn("  Word list, newline-separated:")
-      let char_list2 = unlines word_list
-      putStrLn(char_list2)
+      let char_list2 = map ("    " ++) word_list
+      let char_list3 = unlines char_list2
+      putStrLn(char_list3)
 
 guesser :: IO ()
 guesser = do
