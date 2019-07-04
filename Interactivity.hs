@@ -78,21 +78,26 @@ guesser = do
 do_guessing :: Integer -> IO ()
 do_guessing num = do
   user_input <- prompt ("Guess: ")
-  let guess = read user_input :: Integer
-  if guess < 1
+  if user_input == ""
     then do
-      putStrLn ("Stopped guessing.")
+      putStrLn "Quitting number guesser."
+      return ()
     else do
-      if guess < num
+      let guess = read user_input :: Integer
+      if guess < 1
         then do
-          putStrLn ("Too low.")
-          do_guessing (num)
-        else if guess > num
-          then do
-            putStrLn ("Too high.")
-            do_guessing (num)
-          else do
-            putStrLn ("You win!")
+          putStrLn ("Stopped guessing.")
+        else do
+          if guess < num
+            then do
+              putStrLn ("Too low.")
+              do_guessing (num)
+            else if guess > num
+              then do
+                putStrLn ("Too high.")
+                do_guessing (num)
+              else do
+                putStrLn ("You win!")
 
 number_asker :: IO [Integer]
 number_asker = do
