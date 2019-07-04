@@ -67,6 +67,9 @@ calculations = do
   number_operation_series "  Factorial" factorial number_list
   number_operation_series "  Fibonacci" fibonacci number_list
   number_operation_series "  Square" square number_list
+  
+  let abc = [1,2,0] :: [Float]
+  putStrLn ("  For a list of coefficients " ++ show abc ++ ", the roots are " ++ show (roots abc) ++ ".")
 
 --
 lists_of_pairs = do
@@ -157,6 +160,16 @@ number_operation_series name operation (number:number_list) = do
   let result = operation number
   putStrLn (name ++ " of " ++ show number ++ ": " ++ show result)
   number_operation_series name operation number_list
+
+roots :: [Float] -> (Float, Float)
+roots abc =
+  let a = head abc
+      b = head (tail abc)
+      c = head (tail (tail abc))
+      discriminant = sqrt (b*b - 4*a*c)
+      twice_a = 2*a
+  in ((-b + discriminant) / twice_a,
+      (-b - discriminant) / twice_a)
 
 -- Other functions: -------------------
 
