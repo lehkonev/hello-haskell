@@ -6,6 +6,8 @@ import Interactivity
 
 -- Built-in:
 import GHC.IO.Encoding
+import System.IO
+import Data.Typeable
 
 
 main :: IO()
@@ -27,6 +29,8 @@ main = do
   lambdas
 
   file_reading
+
+  typing
 
   putStrLn ""
   putStrLn "End of program."
@@ -137,6 +141,35 @@ file_reading = do
   print file_content
   putStrLn "  End of file."
 
+--
+typing = do
+  putStrLn ""
+  putStrLn "Typing:"
+  let f1 = \x -> [x]
+  let f2 = \x y z -> (x,y:z:[])
+  let f3 = \x -> x + 5
+  let f4 = \x -> "hello, world"
+  let f5 = \x -> x 'a'
+  let f6 = \x -> x 'a'
+  --let f6 = \x -> x x
+  let f7 = \x -> x + x
+
+  -- Doesn't work:
+  --putStrLn("  -- Type of f1: " ++ (show (typeOf f1)) ++ " --")
+
+  -- GHCI gives the types, though:
+  putStrLn "  Expression and type given by GHCI                        Parameter  Result"
+  putStrLn ("  (\\x -> [x])            :: a -> [a]                      f1 4     = " ++ show (f1 4))
+  putStrLn ("  (\\x y z -> (x,y:z:[])) :: a1 -> a2 -> a2 -> (a1, [a2])  f2 4 2 9 = " ++ show (f2 4 2 9))
+  putStrLn ("  (\\x -> x + 5)          :: Num a => a -> a               f3 4     = " ++ show (f3 4))
+  putStrLn ("  (\\x -> \"hello, world\") :: p -> [Char]                   f4 4     = " ++ show (f4 4))
+  putStrLn ("  (\\x -> x 'a')          :: (Char -> t) -> t              f5 cf    = " ++ show (f5 cf))
+  putStrLn ("  (\\x -> x x)                                             f6         nope (infinite type error)")
+  putStrLn ("  (\\x -> x + x)          :: Num a => a -> a               f7 4     = " ++ show (f7 4))
+  putStrLn "  Note:"
+  putStrLn "    f4: The parameter is just discarded, whatever it is."
+  putStrLn "    f5: Works if the parameter is any function that takes a character as a parameter."
+
 ------------------------------------------------------------------------------
 -- Helper functions:
 
@@ -220,3 +253,5 @@ first_of_second_of_list list = fst (head (tail (list)))
 my_map f [] = []
 my_map f (x:xs) =
   f x : my_map f xs
+
+cf x = if x == 'a' then 'a' else 'x'
