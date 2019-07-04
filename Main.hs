@@ -10,6 +10,10 @@ import System.IO
 import Data.Typeable
 
 
+data Triple a b c = Triple a b c
+data Quadruple a b = Quadruple a a b b
+
+
 main :: IO()
 main = do
   setLocaleEncoding utf8 -- This is a must. I'm surprised åäö worked without.
@@ -31,6 +35,7 @@ main = do
   file_reading
 
   typing
+  datatypes
 
   putStrLn ""
   putStrLn "End of program."
@@ -171,6 +176,22 @@ typing = do
   putStrLn "    f4: The parameter is just discarded, whatever it is."
   putStrLn "    f5: Works if the parameter is any function that takes a character as a parameter."
 
+datatypes = do
+  putStrLn ""
+  putStrLn "Datatypes:"
+  putStrLn "  Triple datatype:"
+  let tt = Triple 'a' 1 "eka"
+  let t1 = triple_fst tt
+  let t2 = triple_mid tt
+  let t3 = triple_lst tt
+  putStrLn("    triple_fst: " ++ show t1 ++ "; triple_mid: " ++ show t2 ++ "; triple_lst: " ++ show t3)
+  putStrLn "  Quadruple datatype:"
+  let qq = Quadruple 1 2 "eka" "toka"
+  let q1 = quadruple_fst_two qq
+  let q2 = quadruple_lst_two qq
+  let t3 = triple_lst tt
+  putStrLn("    quadruple_fst_two: " ++ show q1 ++ "; quadruple_lst_two: " ++ show q2)
+
 ------------------------------------------------------------------------------
 -- Helper functions:
 
@@ -256,3 +277,19 @@ my_map f (x:xs) =
   f x : my_map f xs
 
 cf x = if x == 'a' then 'a' else 'x'
+
+----
+
+-- Triple functions:
+triple_fst :: Triple a b c -> a
+triple_fst (Triple x y z) = x
+triple_mid :: Triple a b c -> b
+triple_mid (Triple x y z) = y
+triple_lst :: Triple a b c -> c
+triple_lst (Triple x y z) = z
+
+-- Quadruple functions:
+quadruple_fst_two :: Quadruple a b -> [a]
+quadruple_fst_two (Quadruple x y z n) = x:y:[]
+quadruple_lst_two :: Quadruple a b -> [b]
+quadruple_lst_two (Quadruple x y z n) = z:n:[]
