@@ -13,6 +13,7 @@ import Data.Typeable
 data Triple a b c = Triple a b c deriving (Show)
 data Quadruple a b = Quadruple a a b b deriving (Show)
 data Tuple a b c d = Tuple1 a | Tuple2 a b | Tuple3 a b c | Tuple4 a b c d deriving (Show)
+data MyList a = Nil | Constructor a (MyList a) deriving (Show)
 
 
 main :: IO()
@@ -181,18 +182,26 @@ typing = do
 datatypes = do
   putStrLn ""
   putStrLn "Datatypes:"
+
   putStrLn "  Triple datatype:"
   let tt = Triple 'a' 1 "eka"
   let t1 = triple_fst tt
   let t2 = triple_mid tt
   let t3 = triple_lst tt
   putStrLn("    Triple: " ++ show tt ++ "; triple_fst: " ++ show t1 ++ "; triple_mid: " ++ show t2 ++ "; triple_lst: " ++ show t3)
+
   putStrLn "  Quadruple datatype:"
   let qq = Quadruple 1 2 "eka" "toka"
   let q1 = quadruple_fst_two qq
   let q2 = quadruple_lst_two qq
   let t3 = triple_lst tt
   putStrLn("    Quadruple: " ++ show qq ++ "; quadruple_fst_two: " ++ show q1 ++ "; quadruple_lst_two: " ++ show q2)
+
+  putStrLn "  Recursive datatype (MyList):"
+  let ll = Constructor 3
+  --let ll_len = mylist_length ll
+  --putStrLn ("    Length of list: " ++ show ll_len)
+  putStrLn "  How to use this recursive list?"
 
 maybe_stuff = do
   putStrLn ""
@@ -350,3 +359,6 @@ tuple4 (Tuple1 a) = Nothing
 tuple4 (Tuple2 a b) = Nothing
 tuple4 (Tuple3 a b c) = Nothing
 tuple4 (Tuple4 a b c d) = Just d
+
+mylist_length Nil = 0
+mylist_length (Constructor x xs) = 1 + mylist_length xs
