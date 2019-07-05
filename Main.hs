@@ -12,6 +12,7 @@ import Data.Typeable
 
 data Triple a b c = Triple a b c deriving (Show)
 data Quadruple a b = Quadruple a a b b deriving (Show)
+data Tuple a b c d = Tuple1 a | Tuple2 a b | Tuple3 a b c | Tuple4 a b c d deriving (Show)
 
 
 main :: IO()
@@ -36,6 +37,7 @@ main = do
 
   typing
   datatypes
+  maybe_stuff
 
   putStrLn ""
   putStrLn "End of program."
@@ -192,6 +194,26 @@ datatypes = do
   let t3 = triple_lst tt
   putStrLn("    Quadruple: " ++ show qq ++ "; quadruple_fst_two: " ++ show q1 ++ "; quadruple_lst_two: " ++ show q2)
 
+maybe_stuff = do
+  putStrLn ""
+  putStrLn "Maybe stuff:"
+  let some_list = [1,6,3]
+  let empty_list = [] :: [Int] -- Has to have a stated type so that show knows what to do.
+  putStrLn ("  some_list: " ++ show some_list ++ "; first element: " ++ show (first_ele some_list))
+  putStrLn ("  empty_list: " ++ show empty_list ++ "; first element: " ++ show (first_ele empty_list))
+  let t1 = Tuple1 6
+  let t2 = Tuple2 3 5
+  let t3 = Tuple3 8 3 5
+  let t4 = Tuple4 4 8 3 5
+  -- The commented parts cause an error:
+  -- Ambiguous type variable `b0' arising from a use of `show'
+  -- prevents the constraint `(Show b0)' from being solved.
+  --putStrLn ("Tuples 1, 2, 3, and 4: " ++ show t1 ++ "; " ++ show t2 ++ "; " ++ show t3 ++ "; " ++ show t4)
+  putStrLn ("  tuple1: " ++ show (tuple1 t1) ++ "; " ++ show (tuple1 t2) ++ "; " ++ show (tuple1 t3) ++ "; " ++ show (tuple1 t4))
+  --putStrLn ("tuple2: " ++ show (tuple2 t1) ++ "; " ++ show (tuple2 t2) ++ "; " ++ show (tuple2 t3) ++ "; " ++ show (tuple2 t4))
+  --putStrLn ("tuple3: " ++ show (tuple3 t1) ++ "; " ++ show (tuple3 t2) ++ "; " ++ show (tuple3 t3) ++ "; " ++ show (tuple3 t4))
+  --putStrLn ("tuple4: " ++ show (tuple4 t1) ++ "; " ++ show (tuple4 t2) ++ "; " ++ show (tuple4 t3) ++ "; " ++ show (tuple4 t4))
+
 ------------------------------------------------------------------------------
 -- Helper functions:
 
@@ -293,3 +315,33 @@ quadruple_fst_two :: Quadruple a b -> [a]
 quadruple_fst_two (Quadruple x y z n) = x:y:[]
 quadruple_lst_two :: Quadruple a b -> [b]
 quadruple_lst_two (Quadruple x y z n) = z:n:[]
+
+--
+first_ele :: [a] -> Maybe a
+first_ele [] = Nothing
+first_ele (x:xs) = Just x
+
+--
+tuple1 :: Tuple a b c d -> Maybe a
+tuple1 (Tuple1 a) = Just a
+tuple1 (Tuple2 a b) = Just a
+tuple1 (Tuple3 a b c) = Just a
+tuple1 (Tuple4 a b c d) = Just a
+
+tuple2 :: Tuple a b c d -> Maybe b
+tuple2 (Tuple1 a) = Nothing
+tuple2 (Tuple2 a b) = Just b
+tuple2 (Tuple3 a b c) = Just b
+tuple2 (Tuple4 a b c d) = Just b
+
+tuple3 :: Tuple a b c d -> Maybe c
+tuple3 (Tuple1 a) = Nothing
+tuple3 (Tuple2 a b) = Nothing
+tuple3 (Tuple3 a b c) = Just c
+tuple3 (Tuple4 a b c d) = Just c
+
+tuple4 :: Tuple a b c d -> Maybe d
+tuple4 (Tuple1 a) = Nothing
+tuple4 (Tuple2 a b) = Nothing
+tuple4 (Tuple3 a b c) = Nothing
+tuple4 (Tuple4 a b c d) = Just d
