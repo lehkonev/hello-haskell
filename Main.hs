@@ -10,8 +10,8 @@ import System.IO
 import Data.Typeable
 
 
-data Triple a b c = Triple a b c
-data Quadruple a b = Quadruple a a b b
+data Triple a b c = Triple a b c deriving (Show)
+data Quadruple a b = Quadruple a a b b deriving (Show)
 
 
 main :: IO()
@@ -184,13 +184,13 @@ datatypes = do
   let t1 = triple_fst tt
   let t2 = triple_mid tt
   let t3 = triple_lst tt
-  putStrLn("    triple_fst: " ++ show t1 ++ "; triple_mid: " ++ show t2 ++ "; triple_lst: " ++ show t3)
+  putStrLn("    Triple: " ++ show tt ++ "; triple_fst: " ++ show t1 ++ "; triple_mid: " ++ show t2 ++ "; triple_lst: " ++ show t3)
   putStrLn "  Quadruple datatype:"
   let qq = Quadruple 1 2 "eka" "toka"
   let q1 = quadruple_fst_two qq
   let q2 = quadruple_lst_two qq
   let t3 = triple_lst tt
-  putStrLn("    quadruple_fst_two: " ++ show q1 ++ "; quadruple_lst_two: " ++ show q2)
+  putStrLn("    Quadruple: " ++ show qq ++ "; quadruple_fst_two: " ++ show q1 ++ "; quadruple_lst_two: " ++ show q2)
 
 ------------------------------------------------------------------------------
 -- Helper functions:
