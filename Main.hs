@@ -201,18 +201,23 @@ maybe_stuff = do
   let empty_list = [] :: [Int] -- Has to have a stated type so that show knows what to do.
   putStrLn ("  some_list: " ++ show some_list ++ "; first element: " ++ show (first_ele some_list))
   putStrLn ("  empty_list: " ++ show empty_list ++ "; first element: " ++ show (first_ele empty_list))
-  let t1 = Tuple1 6
-  let t2 = Tuple2 3 5
-  let t3 = Tuple3 8 3 5
+  let t1 = Tuple1 "heyyy"
+  let t2 = Tuple2 'w' 5
+  let t3 = Tuple3 8 "aaa" ('a',"b")
   let t4 = Tuple4 4 8 3 5
   -- The commented parts cause an error:
   -- Ambiguous type variable `b0' arising from a use of `show'
   -- prevents the constraint `(Show b0)' from being solved.
+  -- The problem only concerns the Nothings.
   --putStrLn ("Tuples 1, 2, 3, and 4: " ++ show t1 ++ "; " ++ show t2 ++ "; " ++ show t3 ++ "; " ++ show t4)
   putStrLn ("  tuple1: " ++ show (tuple1 t1) ++ "; " ++ show (tuple1 t2) ++ "; " ++ show (tuple1 t3) ++ "; " ++ show (tuple1 t4))
-  --putStrLn ("tuple2: " ++ show (tuple2 t1) ++ "; " ++ show (tuple2 t2) ++ "; " ++ show (tuple2 t3) ++ "; " ++ show (tuple2 t4))
-  --putStrLn ("tuple3: " ++ show (tuple3 t1) ++ "; " ++ show (tuple3 t2) ++ "; " ++ show (tuple3 t3) ++ "; " ++ show (tuple3 t4))
-  --putStrLn ("tuple4: " ++ show (tuple4 t1) ++ "; " ++ show (tuple4 t2) ++ "; " ++ show (tuple4 t3) ++ "; " ++ show (tuple4 t4))
+  putStrLn ("  tuple2: " {-++ show (tuple2 t1)-} ++ "; " ++ show (tuple2 t2) ++ "; " ++ show (tuple2 t3) ++ "; " ++ show (tuple2 t4))
+  putStrLn ("  tuple3: " {-++ show (tuple3 t1) ++ "; " ++ show (tuple3 t2)-} ++ "; " ++ show (tuple3 t3) ++ "; " ++ show (tuple3 t4))
+  putStrLn ("  tuple4: " {-++ show (tuple4 t1) ++ "; " ++ show (tuple4 t2) ++ "; " ++ show (tuple4 t3)-} ++ "; " ++ show (tuple4 t4))
+  let what2 = tuple2 t1 -- This should be Nothing.
+  if null what2
+    then putStrLn ("  Second of t1 was null! " {-++ show what2-}) -- But how to print it?
+    else putStrLn "  Second of t1 wasn't null?"
 
 ------------------------------------------------------------------------------
 -- Helper functions:
