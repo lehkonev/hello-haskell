@@ -318,15 +318,15 @@ cf x = if x == 'a' then 'a' else 'x'
 
 -- Triple functions:
 triple_fst :: Triple a b c -> a
-triple_fst (Triple x y z) = x
+triple_fst (Triple x _ _) = x -- If some parameters are irrelevant, ignore them with _.
 triple_mid :: Triple a b c -> b
-triple_mid (Triple x y z) = y
+triple_mid (Triple _ y _) = y
 triple_lst :: Triple a b c -> c
-triple_lst (Triple x y z) = z
+triple_lst (Triple x y z) = z -- Can also be not ignored even if they do nothing.
 
 -- Quadruple functions:
 quadruple_fst_two :: Quadruple a b -> [a]
-quadruple_fst_two (Quadruple x y z n) = x:y:[]
+quadruple_fst_two (Quadruple x y _ _) = x:y:[]
 quadruple_lst_two :: Quadruple a b -> [b]
 quadruple_lst_two (Quadruple x y z n) = z:n:[]
 
@@ -338,9 +338,9 @@ first_ele (x:xs) = Just x
 --
 tuple1 :: Tuple a b c d -> Maybe a
 tuple1 (Tuple1 a) = Just a
-tuple1 (Tuple2 a b) = Just a
-tuple1 (Tuple3 a b c) = Just a
-tuple1 (Tuple4 a b c d) = Just a
+tuple1 (Tuple2 a _) = Just a
+tuple1 (Tuple3 a _ _) = Just a
+tuple1 (Tuple4 a _ _ _) = Just a
 
 tuple2 :: Tuple a b c d -> Maybe b
 tuple2 (Tuple1 a) = Nothing
