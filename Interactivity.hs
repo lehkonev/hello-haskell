@@ -14,17 +14,19 @@ import System.IO
 -- input_asker is an IO action that has nothing () to give out.
 input_asker :: IO ()
 input_asker = do
+  putStrLn ""
   putStrLn ("Input asker:")
   hSetBuffering stdin LineBuffering
   user_input <- prompt ("  Type something here: ")
   putStrLn("  -- Type of user_input: " ++ (show (typeOf user_input)) ++ " --")
-  putStrLn ("  You typed: \"" ++ user_input ++ "\"\n")
+  putStrLn ("  You typed: \"" ++ user_input ++ "\"")
 
 -- word_asker is an IO action whose result will be a list of Strings, so its
 -- type is IO [String]. The result is extracted in main
 -- (word_list <- word_asker), and word_list is a [String].
 word_asker :: IO [String]
 word_asker = do
+  putStrLn ""
   putStrLn "Repeating word asker (press only enter to stop):"
   putStrLn("  -- Type of word_asker: " ++ (show (typeOf word_asker)) ++ " --")
   ask_for_words
@@ -105,11 +107,17 @@ do_guessing num = do
 
 number_asker :: IO [Integer]
 number_asker = do
-  maybe_int <- prompt_int("    Give an integer: ")
+  putStrLn ""
+  putStrLn "Repeating number asker (type 0 or only enter to stop):"
+  ask_for_numbers
+
+ask_for_numbers :: IO [Integer]
+ask_for_numbers = do
+  maybe_int <- prompt_int("  Give an integer: ")
   if (maybe_int < 1)
     then return []
     else do
-      rest <- number_asker
+      rest <- ask_for_numbers
       return (maybe_int : rest)
 
 --------------------------------------------------------------------------------

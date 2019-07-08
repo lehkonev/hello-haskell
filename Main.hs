@@ -23,7 +23,7 @@ data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
 main :: IO()
 main = do
   setLocaleEncoding utf8 -- This is a must. I'm surprised åäö worked without.
-  putStrLn "This is main.\n"
+  putStrLn "This is main."
 
   input_asker
 
@@ -33,7 +33,10 @@ main = do
   guesser
 
   simplebool_xor
-  calculations
+
+  number_list <- number_asker
+  calculations number_list
+
   lists_of_pairs
   my_mapping
   lambdas
@@ -71,13 +74,12 @@ simplebool_xor = do
   putStrLn("  " ++ s1 ++ " xor " ++ s2 ++ " = " ++ show (xorbool s1 s2))
 
 --
-calculations = do
+calculations number_list = do
   putStrLn ""
   putStrLn "Calculations:"
 
   putStrLn ("  Simple number constructor: " ++ show number1)
 
-  number_list <- number_asker
   if number_list == []
     then putStrLn "  There are no numbers."
     else do
