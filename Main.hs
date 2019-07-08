@@ -16,6 +16,8 @@ data Tuple a b c d = Tuple1 a | Tuple2 a b | Tuple3 a b c | Tuple4 a b c d deriv
 data MyList a = Nil | Constructor a (MyList a) deriving (Show, Read, Eq, Ord)
 -- Or like this:
 --data MyList a = Empty | Constructor { mylist_head :: a, mylist_tail :: MyList a } deriving (Show, Read, Eq, Ord)
+-- Why doesn't this tree work if node is in the middle?
+data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
 
 
 main :: IO()
@@ -213,6 +215,20 @@ datatypes = do
   putStrLn ("      tail: " ++ show (mylist_tail ll1))
   putStrLn ("      last: " ++ show (mylist_last ll1))
 
+  putStrLn "  Recursive datatype (BinaryTree):"
+  let bt1 = singleton_tree 3
+  let bt2 = tree_insert 4 bt1
+  let bt3 = tree_insert 1 bt2
+  let bt4 = tree_insert (-4) bt3
+  let bt5 = tree_insert 6 bt4
+  let bt6 = tree_insert 32 bt5
+  putStrLn ("    bt1 (" ++ show (tree_size bt1) ++ "): " ++ show bt1)
+  putStrLn ("    bt2 (" ++ show (tree_size bt2) ++ "): " ++ show bt2)
+  putStrLn ("    bt3 (" ++ show (tree_size bt3) ++ "): " ++ show bt3)
+  putStrLn ("    bt4 (" ++ show (tree_size bt4) ++ "): " ++ show bt4)
+  putStrLn ("    bt5 (" ++ show (tree_size bt5) ++ "): " ++ show bt5)
+  putStrLn ("    bt6 (" ++ show (tree_size bt6) ++ "): " ++ show bt6)
+
 maybe_stuff = do
   putStrLn ""
   putStrLn "Maybe stuff:"
@@ -384,3 +400,18 @@ mylist_tail (Constructor x xs) = xs
 mylist_last :: MyList a -> a
 mylist_last (Constructor x Nil) = x
 mylist_last (Constructor x xs) = mylist_last xs
+
+singleton_tree :: a -> Tree a
+singleton_tree x = (Node x) EmptyTree EmptyTree
+
+tree_insert :: (Ord a) => a -> Tree a -> Tree a
+tree_insert x EmptyTree = singleton_tree x
+tree_insert x (Node n left right)
+  | x == n = Node x left right
+  | x < n  = Node n (tree_insert x left) right
+  | x > n  = Node n left (tree_insert x right)
+
+tree_size :: Tree a -> Integer
+tree_size EmptyTree = 0
+tree_size (Node n left right) =
+  1 + tree_size left + tree_size right
