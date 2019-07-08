@@ -13,7 +13,9 @@ import Data.Typeable
 data Triple a b c = Triple a b c deriving (Show)
 data Quadruple a b = Quadruple a a b b deriving (Show)
 data Tuple a b c d = Tuple1 a | Tuple2 a b | Tuple3 a b c | Tuple4 a b c d deriving (Show)
-data MyList a = Nil | Constructor a (MyList a) deriving (Show)
+data MyList a = Nil | Constructor a (MyList a) deriving (Show, Read, Eq, Ord)
+-- Or like this:
+--data MyList a = Empty | Constructor { mylist_head :: a, mylist_tail :: MyList a } deriving (Show, Read, Eq, Ord)
 
 
 main :: IO()
@@ -198,10 +200,18 @@ datatypes = do
   putStrLn("    Quadruple: " ++ show qq ++ "; quadruple_fst_two: " ++ show q1 ++ "; quadruple_lst_two: " ++ show q2)
 
   putStrLn "  Recursive datatype (MyList):"
-  let ll = Constructor 3
-  --let ll_len = mylist_length ll
-  --putStrLn ("    Length of list: " ++ show ll_len)
-  putStrLn "  How to use this recursive list?"
+  let ll = Constructor "blöp" Nil
+  let ll1 = Constructor 4 (Constructor 2 (Constructor 8 (Constructor 5 Nil)))
+  putStrLn ("    ll: " ++ show ll)
+  putStrLn ("      length: " ++ show (mylist_length ll))
+  putStrLn ("      head: " ++ show (mylist_head ll))
+  putStrLn ("      tail: " ++ show (mylist_tail ll))
+  putStrLn ("      last: " ++ show (mylist_last ll))
+  putStrLn ("    ll1: " ++ show ll1)
+  putStrLn ("      length: " ++ show (mylist_length ll1))
+  putStrLn ("      head: " ++ show (mylist_head ll1))
+  putStrLn ("      tail: " ++ show (mylist_tail ll1))
+  putStrLn ("      last: " ++ show (mylist_last ll1))
 
 maybe_stuff = do
   putStrLn ""
@@ -360,5 +370,17 @@ tuple4 (Tuple2 a b) = Nothing
 tuple4 (Tuple3 a b c) = Nothing
 tuple4 (Tuple4 a b c d) = Just d
 
+mylist_length :: MyList a -> Integer
 mylist_length Nil = 0
 mylist_length (Constructor x xs) = 1 + mylist_length xs
+
+mylist_head :: MyList a -> a
+--mylist_head Nil = Nil -- Doesn't work; how to exception?
+mylist_head (Constructor x xs) = x
+
+mylist_tail :: MyList a -> MyList a
+mylist_tail (Constructor x xs) = xs
+
+mylist_last :: MyList a -> a
+mylist_last (Constructor x Nil) = x
+mylist_last (Constructor x xs) = mylist_last xs
