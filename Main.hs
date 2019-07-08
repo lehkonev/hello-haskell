@@ -228,6 +228,7 @@ datatypes = do
   putStrLn ("    bt4 (" ++ show (tree_size bt4) ++ "): " ++ show bt4)
   putStrLn ("    bt5 (" ++ show (tree_size bt5) ++ "): " ++ show bt5)
   putStrLn ("    bt6 (" ++ show (tree_size bt6) ++ "): " ++ show bt6)
+  putStrLn ("    bt6 elements: " ++ show (tree_elements bt6))
 
 maybe_stuff = do
   putStrLn ""
@@ -415,3 +416,8 @@ tree_size :: Tree a -> Integer
 tree_size EmptyTree = 0
 tree_size (Node n left right) =
   1 + tree_size left + tree_size right
+
+tree_elements :: Tree a -> [a]
+tree_elements EmptyTree = []
+tree_elements (Node n left right) =
+  (tree_elements left) ++ [n] ++ (tree_elements right)
