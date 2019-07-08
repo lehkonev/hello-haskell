@@ -38,13 +38,13 @@ main = do
   calculations number_list
 
   lists_of_pairs
-  my_mapping
+  my_mapping number_list
   lambdas
 
   file_reading
 
   typing
-  datatypes
+  datatypes number_list
   maybe_stuff
 
   putStrLn ""
@@ -118,16 +118,18 @@ lists_of_pairs = do
   putStrLn ("  Same: " ++ show (first_of_second_of_list (list_of_pairs)))
 
 --
-my_mapping = do
-  putStrLn ""
-  putStrLn "My map:"
-  let list1 = 3:6:2:7:8:4:[]
-  putStrLn ("  Unsquared: " ++ show (list1))
-  putStrLn ("  map:       " ++ show (map square list1))
-  putStrLn ("  my_map:    " ++ show (my_map square list1))
-  putStrLn "And then:"
-  putStrLn ("  Map factorial: " ++ show (map factorial list1))
-  putStrLn ("  Map fibonacci: " ++ show (map fibonacci list1))
+my_mapping number_list = do
+  if null number_list
+    then my_mapping (3:6:2:7:8:4:[])
+    else do
+      putStrLn ""
+      putStrLn "My map:"
+      putStrLn ("  Unsquared: " ++ show number_list)
+      putStrLn ("  map:       " ++ show (map square number_list))
+      putStrLn ("  my_map:    " ++ show (my_map square number_list))
+      putStrLn "And then:"
+      putStrLn ("  Map factorial: " ++ show (map factorial number_list))
+      putStrLn ("  Map fibonacci: " ++ show (map fibonacci number_list))
 
 --
 lambdas = do
@@ -185,7 +187,7 @@ typing = do
   putStrLn "    f4: The parameter is just discarded, whatever it is."
   putStrLn "    f5: Works if the parameter is any function that takes a character as a parameter."
 
-datatypes = do
+datatypes test_numbers = do
   putStrLn ""
   putStrLn "Datatypes:"
 
@@ -206,6 +208,7 @@ datatypes = do
   putStrLn "  Recursive datatype (MyList):"
   let ll = Constructor "blöp" Nil
   let ll1 = Constructor 4 (Constructor 2 (Constructor 8 (Constructor 5 Nil)))
+  let ll2 = mylist_create (if null test_numbers then [4,3,-9,2,7,1] else test_numbers)
   putStrLn ("    ll: " ++ show ll)
   putStrLn ("      length: " ++ show (mylist_length ll))
   putStrLn ("      head: " ++ show (mylist_head ll))
@@ -216,6 +219,11 @@ datatypes = do
   putStrLn ("      head: " ++ show (mylist_head ll1))
   putStrLn ("      tail: " ++ show (mylist_tail ll1))
   putStrLn ("      last: " ++ show (mylist_last ll1))
+  putStrLn ("    ll2: " ++ show ll2)
+  putStrLn ("      length: " ++ show (mylist_length ll2))
+  putStrLn ("      head: " ++ show (mylist_head ll2))
+  putStrLn ("      tail: " ++ show (mylist_tail ll2))
+  putStrLn ("      last: " ++ show (mylist_last ll2))
 
   putStrLn "  Recursive datatype (BinaryTree):"
   let bt1 = singleton_tree 3
@@ -227,10 +235,13 @@ datatypes = do
   putStrLn ("    bt1 (" ++ show (tree_size bt1) ++ "): " ++ show bt1)
   putStrLn ("    bt2 (" ++ show (tree_size bt2) ++ "): " ++ show bt2)
   putStrLn ("    bt3 (" ++ show (tree_size bt3) ++ "): " ++ show bt3)
-  putStrLn ("    bt4 (" ++ show (tree_size bt4) ++ "): " ++ show bt4)
-  putStrLn ("    bt5 (" ++ show (tree_size bt5) ++ "): " ++ show bt5)
-  putStrLn ("    bt6 (" ++ show (tree_size bt6) ++ "): " ++ show bt6)
+  putStrLn ("           : " ++ tree_print bt3)
+  putStrLn ("    bt4 (" ++ show (tree_size bt4) ++ "): " ++ tree_print bt4)
+  putStrLn ("    bt5 (" ++ show (tree_size bt5) ++ "): " ++ tree_print bt5)
+  putStrLn ("    bt6 (" ++ show (tree_size bt6) ++ "): " ++ tree_print bt6)
   putStrLn ("    bt6 elements: " ++ show (tree_elements bt6))
+  let bt = tree_create (if null test_numbers then [4,3,-9,2,7,6] else test_numbers)
+  putStrLn ("    bt (" ++ show (tree_size bt) ++ "): " ++ tree_print bt)
 
 maybe_stuff = do
   putStrLn ""
@@ -404,6 +415,12 @@ mylist_last :: MyList a -> a
 mylist_last (Constructor x Nil) = x
 mylist_last (Constructor x xs) = mylist_last xs
 
+mylist_create :: [a] -> MyList a
+mylist_create (x:[]) =
+  Constructor x Nil
+mylist_create (x:xs) =
+  Constructor x (mylist_create xs)
+
 singleton_tree :: a -> Tree a
 singleton_tree x = (Node x) EmptyTree EmptyTree
 
@@ -423,3 +440,13 @@ tree_elements :: Tree a -> [a]
 tree_elements EmptyTree = []
 tree_elements (Node n left right) =
   (tree_elements left) ++ [n] ++ (tree_elements right)
+
+tree_create :: (Ord a) => [a] -> Tree a
+tree_create [] = EmptyTree
+tree_create (x:xs) =
+  tree_insert x (tree_create xs)
+
+tree_print :: (Show a) => Tree a -> String
+tree_print EmptyTree = "E"
+tree_print (Node n left right) =
+  "(" ++ show n ++ " " ++ tree_print left ++ " " ++ tree_print right ++ ") "
