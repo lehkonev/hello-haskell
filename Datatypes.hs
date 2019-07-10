@@ -4,8 +4,11 @@ module Datatypes (
   )
     where
 
+import Interactivity
+
 import GHC.IO.Encoding
 import System.IO
+import Data.Typeable
 
 
 data Triple a b c = Triple a b c deriving (Show)
@@ -16,6 +19,15 @@ data MyList a = Nil | Constructor a (MyList a) deriving (Show, Read, Eq, Ord)
 --data MyList a = Empty | Constructor { mylist_head :: a, mylist_tail :: MyList a } deriving (Show, Read, Eq, Ord)
 -- Why doesn't this tree work if node is in the middle?
 data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
+
+-- A datatype with named fields for easy access and updating:
+data PathfinderCharacter =
+  PathfinderCharacter { cname  :: String,
+                        crace  :: String,
+                        cclass :: String,
+                        clevel :: Integer
+                      }
+                      deriving (Show, Read, Eq)
 
 
 maybe_stuff = do
@@ -98,6 +110,51 @@ datatypes test_numbers = do
   putStrLn ("    bt6 elements: " ++ show (tree_elements bt6))
   let bt = tree_create (if null test_numbers then [4,3,-9,2,7,6] else test_numbers)
   putStrLn ("    bt (" ++ show (tree_size bt) ++ "): " ++ tree_print bt)
+
+  putStrLn "  Exciting Pathfinder character datatype:"
+  characters <- ask_user_for_characters
+  putStrLn ("    -- Type of characters: " ++ (show (typeOf characters)) ++ " --")
+  putStrLn "    Character list:"
+  putStrLn (unlines (map (("      " ++) . show) characters))
+
+----
+
+ask_user_for_characters :: IO [PathfinderCharacter]
+ask_user_for_characters = do
+  putStrLn "    Give info for a new character (empty to stop):"
+  hSetBuffering stdin LineBuffering
+
+  iname <- prompt "      Character name: "
+  if null iname
+    then do
+      putStrLn "    Stopped asking for character info."
+      return ([] :: [PathfinderCharacter])
+
+    else do
+      irace <- prompt "      Character race: "
+      if null irace
+        then do
+          putStrLn "    Stopped asking for character info."
+          return ([] :: [PathfinderCharacter])
+
+        else do
+          iclass <- prompt "      Character class: "
+          if null iclass
+            then do
+              putStrLn "    Stopped asking for character info."
+              return ([] :: [PathfinderCharacter])
+
+            else do
+              ilevel <- prompt_int "      Character level: "
+              if ilevel < 1
+                then do
+                  putStrLn "    Stopped asking for character info."
+                  return ([] :: [PathfinderCharacter])
+
+                else do
+                  let c = PathfinderCharacter {cname=iname, crace=irace, cclass=iclass, clevel=ilevel}
+                  rest <- ask_user_for_characters
+                  return (c:rest)
 
 ----
 

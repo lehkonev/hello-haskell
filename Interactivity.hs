@@ -4,12 +4,14 @@ module Interactivity (
   word_printer,
   guesser,
   number_asker,
-  prompt)
+  prompt,
+  prompt_int)
     where
 
 import Data.Typeable
 import System.IO
 --import System.Random -- Won't work. Something broke when installing.
+
 
 -- input_asker is an IO action that has nothing () to give out.
 input_asker :: IO ()

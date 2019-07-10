@@ -18,7 +18,8 @@ main = do
 
   input_asker
 
-  word_list <- word_asker
+  word_list <- word_asker -- word_list :: [String]
+  --let word_list = word_asker -- word_list :: IO [String]
   word_printer(word_list)
 
   guesser
