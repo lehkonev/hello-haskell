@@ -11,6 +11,7 @@ import GHC.IO.Encoding
 import System.IO
 import Data.Typeable
 import Data.Array
+import qualified Data.Map as Map
 
 
 data Triple a b c = Triple a b c deriving (Show)
@@ -57,6 +58,7 @@ maybe_stuff = do
     then putStrLn ("  Second of t1 was null! " {-++ show what2-}) -- But how to print it?
     else putStrLn "  Second of t1 wasn't null?"
 
+datatypes :: [Integer] -> IO ()
 datatypes test_numbers = do
   putStrLn ""
   putStrLn "Datatypes:"
@@ -119,8 +121,17 @@ datatypes test_numbers = do
   if null characters
     then putStrLn "    No characters."
     else do
-      putStrLn "    Character list:"
+      let len = fromIntegral (length characters) :: Integer
+      let indices = test_numbers ++ [1..len] -- In case there are less test_numbers than characters.
+      let character_map = Map.fromList (zip indices characters)
+      putStrLn ("    List of " ++ show len ++ " characters:")
       putStrLn (unlines (map (("      " ++) . show) characters))
+      -- How to not print the empty list item?
+      let i = head indices
+      putStrLn ("    Character " ++ show i ++ ":")
+      putStrLn ("      " ++ show (Map.lookup i character_map))
+      putStrLn ("    Map of " ++ show len ++ " characters (in a long string because that's what we can get):")
+      putStrLn ("      " ++ show character_map)
 
 arraying = do
   putStrLn ""
