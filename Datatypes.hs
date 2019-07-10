@@ -1,6 +1,7 @@
 module Datatypes (
   maybe_stuff,
-  datatypes
+  datatypes,
+  arraying
   )
     where
 
@@ -9,6 +10,7 @@ import Interactivity
 import GHC.IO.Encoding
 import System.IO
 import Data.Typeable
+import Data.Array
 
 
 data Triple a b c = Triple a b c deriving (Show)
@@ -114,8 +116,27 @@ datatypes test_numbers = do
   putStrLn "  Exciting Pathfinder character datatype:"
   characters <- ask_user_for_characters
   putStrLn ("    -- Type of characters: " ++ (show (typeOf characters)) ++ " --")
-  putStrLn "    Character list:"
-  putStrLn (unlines (map (("      " ++) . show) characters))
+  if null characters
+    then putStrLn "    No characters."
+    else do
+      putStrLn "    Character list:"
+      putStrLn (unlines (map (("      " ++) . show) characters))
+
+arraying = do
+  putStrLn ""
+  putStrLn "Arrays:"
+  -- If the bounds (1,5) differ from the real size of the list(s), the
+  -- following error occurs:
+  --main.exe: (Array.!): undefined array element
+  -- With             list comprehensions
+  let a4 = array (1,4) [(i,i^2) | i <- [1..4]]
+  putStrLn ("  " ++ show a4)
+  let a1 = array (1,5) [(i,j) | i <- [1..5], j <- [11..15]]
+  putStrLn ("  " ++ show a1)
+  let a2 = listArray (1,10) [1..10]
+  putStrLn ("  " ++ show a2)
+  let a3 = accumArray (+) 2 (1,5) [(i,i) | i <- [1..5]]
+  putStrLn ("  " ++ show a3)
 
 ----
 

@@ -28,6 +28,7 @@ main = do
 
   number_list <- number_asker
   calculations number_list
+  listing number_list
 
   lists_of_pairs
   my_mapping number_list
@@ -38,6 +39,8 @@ main = do
   typing
   maybe_stuff
   datatypes number_list
+
+  arraying
 
   putStrLn ""
   putStrLn "End of program."
@@ -94,6 +97,18 @@ calculations number_list = do
 
   let abc = [1,2,0] :: [Float]
   putStrLn ("  For a list of coefficients " ++ show abc ++ ", the roots are " ++ show (roots abc) ++ ".")
+
+--
+listing numbers = do
+  putStrLn ""
+  putStrLn "List action:"
+  if null numbers
+    then putStrLn "  Zipping: No numbers to zip."
+    else do
+      let len = length numbers
+      let ns = take len [-4,-8..]
+      let alist = zip numbers ns
+      putStrLn ("  Zipping: " ++ show alist)
 
 --
 lists_of_pairs = do
