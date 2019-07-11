@@ -30,7 +30,10 @@ data PathfinderCharacter =
                         cclass :: String,
                         clevel :: Integer
                       }
-                      deriving (Show, Read, Eq)
+                      deriving (Read, Eq)
+
+instance Show PathfinderCharacter where
+  show c = cname c ++ ", " ++ crace c ++ " " ++ cclass c ++ " " ++ show (clevel c)
 
 
 maybe_stuff = do
