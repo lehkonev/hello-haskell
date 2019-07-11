@@ -9,6 +9,7 @@ import Datatypes
 import GHC.IO.Encoding
 import System.IO
 import Data.Typeable
+import Data.Char
 
 
 main :: IO()
@@ -164,6 +165,10 @@ file_reading = do
   putStrLn "  Contents of the file:"
   print file_content
   putStrLn "  End of file."
+  putStrLn "  Contents of the file in CAPITALS:"
+  print (map Data.Char.toUpper file_content)
+  putStrLn "  End of file."
+  putStrLn "Here are some special characters, just in case: åäö λµ– 日本語"
 
 --
 typing = do
