@@ -22,6 +22,9 @@ data MyList a = Nil | Constructor a (MyList a) deriving (Show, Read, Eq, Ord)
 --data MyList a = Empty | Constructor { mylist_head :: a, mylist_tail :: MyList a } deriving (Show, Read, Eq, Ord)
 -- Why doesn't this tree work if node is in the middle?
 data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
+instance Functor Tree where
+  fmap f EmptyTree = EmptyTree
+  fmap f (Node n left right) = Node (f n) (fmap f left) (fmap f right)
 
 -- A datatype with named fields for easy access and updating:
 data PathfinderCharacter =
@@ -117,6 +120,9 @@ datatypes test_numbers = do
   putStrLn ("    bt6 elements: " ++ show (tree_elements bt6))
   let bt = tree_create (if null test_numbers then [4,3,-9,2,7,6] else test_numbers)
   putStrLn ("    bt (" ++ show (tree_size bt) ++ "): " ++ tree_print bt)
+  let btf = fmap (+2) bt
+  putStrLn ("    btf (" ++ show (tree_size bt) ++ "): " ++ tree_print btf)
+  putStrLn ("    btf (" ++ show (tree_size EmptyTree) ++ "): " ++ tree_print (fmap (^2) EmptyTree))
 
   putStrLn "  Exciting Pathfinder character datatype:"
   characters <- ask_user_for_characters
