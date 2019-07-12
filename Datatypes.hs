@@ -65,9 +65,21 @@ maybe_stuff = do
     else putStrLn "  Second of t1 wasn't null?"
 
   putStrLn "  Maybe Integer:"
-  int_from_prompt <- prompt_int_m "    Give an integer again: "
-  putStrLn ("    -- Type of int_from_prompt: " ++ (show (typeOf int_from_prompt)) ++ " --")
-  putStrLn ("    Value of int_from_prompt: " ++ show int_from_prompt)
+  int_from_prompt_m <- prompt_int_m "    Give an integer again: "
+  putStrLn ("    -- Type of int_from_prompt_m: " ++ (show (typeOf int_from_prompt_m)) ++ " --")
+  putStrLn ("    Value of int_from_prompt_m: " ++ show int_from_prompt_m)
+
+  putStrLn "  Either String Integer:"
+  int_from_prompt_e <- prompt_int_e "    Give an integer once again: "
+  putStrLn ("    -- Type of int_from_prompt_e: " ++ (show (typeOf int_from_prompt_e)) ++ " --")
+  putStrLn ("    Value of int_from_prompt_e: " ++ show int_from_prompt_e)
+  case int_from_prompt_e of
+    Left error_msg -> do
+      putStrLn ("    " ++ error_msg)
+      putStrLn ("    Value of error_msg: " ++ show error_msg)
+    Right int_from_either -> do
+      putStrLn ("    -- Type of int_from_either: " ++ (show (typeOf int_from_either)) ++ " --")
+      putStrLn ("    Value of int_from_either: " ++ show int_from_either)
 
 datatypes :: [Integer] -> IO ()
 datatypes test_numbers = do

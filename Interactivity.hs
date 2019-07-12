@@ -6,7 +6,8 @@ module Interactivity (
   number_asker,
   prompt,
   prompt_int,
-  prompt_int_m)
+  prompt_int_m,
+  prompt_int_e)
     where
 
 import Data.Typeable
@@ -154,3 +155,15 @@ prompt_int_m text = do
   let int_from_maybe = (maybe 0 id read_maybe_int)
   putStrLn ("    -- Value and type of int_from_maybe: " ++ show int_from_maybe ++ " :: " ++ (show (typeOf int_from_maybe)) ++ " --")
   return int_from_maybe
+
+prompt_int_e :: String -> IO (Either String Integer)
+prompt_int_e text = do
+  putStr text
+  hFlush stdout
+  something <- getLine
+  let read_maybe_int = readMaybe something :: Maybe Integer
+  if null read_maybe_int
+    then return (Left "Hey, an error: Invalid integer.")
+    else do
+      let int_from_maybe = (maybe 0 id read_maybe_int)
+      return (Right int_from_maybe)
