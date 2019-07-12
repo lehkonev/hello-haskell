@@ -205,10 +205,10 @@ typing = do
 monad_test = do
   putStrLn ""
   putStrLn "Monad test:"
-  putStr "  Type something beginning with abc: "
+  putStr "  Type something beginning with asd: "
   hFlush stdout
-  ('a':'b':'c':x:xs) <- getLine
-  putStr "  Removed the abc: "
+  ('a':'s':'d':x:xs) <- getLine
+  putStr "  Removed the asd: "
   putStrLn (x:xs)
 
 ------------------------------------------------------------------------------
