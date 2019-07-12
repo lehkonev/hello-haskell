@@ -43,6 +43,8 @@ main = do
 
   arraying
 
+  monad_test
+
   putStrLn ""
   putStrLn "End of program."
 
@@ -198,6 +200,16 @@ typing = do
   putStrLn "  Note:"
   putStrLn "    f4: The parameter is just discarded, whatever it is."
   putStrLn "    f5: Works if the parameter is any function that takes a character as a parameter."
+
+--
+monad_test = do
+  putStrLn ""
+  putStrLn "Monad test:"
+  putStr "  Type something beginning with abc: "
+  hFlush stdout
+  ('a':'b':'c':x:xs) <- getLine
+  putStr "  Removed the abc: "
+  putStrLn (x:xs)
 
 ------------------------------------------------------------------------------
 -- Helper functions:
