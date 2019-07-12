@@ -64,6 +64,11 @@ maybe_stuff = do
     then putStrLn ("  Second of t1 was null! " {-++ show what2-}) -- But how to print it?
     else putStrLn "  Second of t1 wasn't null?"
 
+  putStrLn "  Maybe Integer:"
+  int_from_prompt <- prompt_int_m "    Give an integer again: "
+  putStrLn ("    -- Type of int_from_prompt: " ++ (show (typeOf int_from_prompt)) ++ " --")
+  putStrLn ("    Value of int_from_prompt: " ++ show int_from_prompt)
+
 datatypes :: [Integer] -> IO ()
 datatypes test_numbers = do
   putStrLn ""

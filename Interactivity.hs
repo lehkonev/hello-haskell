@@ -5,12 +5,14 @@ module Interactivity (
   guesser,
   number_asker,
   prompt,
-  prompt_int)
+  prompt_int,
+  prompt_int_m)
     where
 
 import Data.Typeable
 import System.IO
 --import System.Random -- Won't work. Something broke when installing.
+import Text.Read -- readMaybe
 
 
 -- input_asker is an IO action that has nothing () to give out.
@@ -141,3 +143,14 @@ prompt_int text = do
     else do
       let int = (read maybe_int :: Integer)
       return int
+
+prompt_int_m :: String -> IO (Integer)
+prompt_int_m text = do
+  putStr text
+  hFlush stdout
+  something <- getLine
+  let read_maybe_int = readMaybe something :: Maybe Integer
+  putStrLn ("    -- Value and type of read_maybe_int: " ++ show (read_maybe_int :: Maybe Integer) ++ " :: " ++ (show (typeOf read_maybe_int)) ++ " --")
+  let int_from_maybe = (maybe 0 id read_maybe_int)
+  putStrLn ("    -- Value and type of int_from_maybe: " ++ show int_from_maybe ++ " :: " ++ (show (typeOf int_from_maybe)) ++ " --")
+  return int_from_maybe
