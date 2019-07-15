@@ -10,6 +10,7 @@ import GHC.IO.Encoding
 import System.IO
 import Data.Typeable
 import Data.Char
+import qualified Data.Map as Map
 
 
 main :: IO()
@@ -17,38 +18,80 @@ main = do
   setLocaleEncoding utf8 -- This is a must. I'm surprised åäö worked without.
   putStrLn "This is main."
 
-  input_asker
+  let l1 = [(number_asker, ("number asker", "give a list of integers."))]
+  let la = [(input_asker, ("input asker", "give any string and print it.")), (word_operations, ("word operations", "give a list of strings and print them.")), (guesser, ("integer guesser", "give an integer and then guess it.")), (simplebool_xor, ("test xor operations", "prints some operations on a self-made xor.")), (lists_of_pairs, ("lists of pairs", "print members of pairs.")), (lambdas, ("lambdas", "print simple lambda tests")), (file_reading, ("file reading", "reads a predetermined file and prints its contents.")), (typing, ("typing", "prints the types of some expressions.")), (maybe_stuff, ("Maybe tests", "give some integers, use Maybe and print tests.")), (arraying, ("arrays", "print some arrays.")), (monad_test, ("monad test", "this doesn't do much yet."))]
+  let lz = [(calculations, ("calculations", "perform some calculations on a given integer list.")), (listing, ("zip a list", "zips a given integer list with a generated one.")), (my_mapping, ("my map", "redo the implementation of map and use it on the given integer list.")), (datatypes, ("datatypes", "do different tuple tests, a binary tree and PathfinderCharacter."))]
+  -- How to indent list on multiple lines without indentation error?
+  let f1 = take (length l1) ['1'..]
+  let fa = take (length la) ['a'..]
+  let fz = take (length lz) ['z','y'..]
+  let fl1 = zip f1 l1
+  let fla = zip fa la
+  let flz = zip fz lz
 
-  word_list <- word_asker -- word_list :: [String]
-  --let word_list = word_asker -- word_list :: IO [String]
-  word_printer(word_list)
-
-  guesser
-
-  simplebool_xor
-
-  number_list <- number_asker
-  calculations number_list
-  listing number_list
-
-  lists_of_pairs
-  my_mapping number_list
-  lambdas
-
-  file_reading
-
-  typing
-  maybe_stuff
-  datatypes number_list
-
-  arraying
-
-  monad_test
+  main_loop (Map.fromList fl1) (Map.fromList fla) (Map.fromList flz) ([] :: [Integer])
 
   putStrLn ""
   putStrLn "End of program."
 
 ----
+
+main_loop f1 fa fz listn = do
+  putStrLn ""
+
+  print_main1 (Map.toAscList f1)
+  print_maina (Map.toAscList fa)
+  print_mainz (Map.toAscList fz)
+
+  input <- prompt "Type one of the above characters to run something, or empty to quit: "
+
+  if length input == 0
+    then putStrLn "Stopped main loop."
+    else do
+      let i = head input
+      if Map.member i f1
+        then do
+          putStr "Current number list: "
+          print listn
+          -- There is probably a better way to get out of Maybe...
+          list_new <- fst (maybe (number_asker,("","")) id (Map.lookup i f1))
+          main_loop f1 fa fz (listn ++ list_new)
+        else do
+          if Map.member i fa
+            then do
+              fst (maybe (input_asker,("","")) id (Map.lookup i fa))
+              --main_loop f1 fa fz listn
+            else
+              if Map.member i fz
+                then do
+                  fst (maybe (calculations,("","")) id (Map.lookup i fz)) listn
+                  --main_loop f1 fa fz listn
+                else do
+                  putStrLn "Didn't find that character."
+          main_loop f1 fa fz listn
+
+-- The prints are identical save for the function type. How to do this better...
+print_main1 [] = putStr ""
+print_main1 (f:fs) = do
+  putStrLn (show (fst f) ++ ": " ++ fst (snd (snd f)) ++ " – " ++ snd (snd (snd f)))
+  print_main1 fs
+
+print_maina [] = putStr ""
+print_maina (f:fs) = do
+  putStrLn (show (fst f) ++ ": " ++ fst (snd (snd f)) ++ " – " ++ snd (snd (snd f)))
+  print_maina fs
+
+print_mainz [] = putStr ""
+print_mainz (f:fs) = do
+  putStrLn (show (fst f) ++ ": " ++ fst (snd (snd f)) ++ " – " ++ snd (snd (snd f)))
+  print_mainz fs
+
+--
+word_operations = do
+  putStrLn ""
+  word_list <- word_asker -- word_list :: [String]
+  --let word_list = word_asker -- word_list :: IO [String]
+  word_printer(word_list)
 
 simplebool_xor = do
   putStrLn ""
