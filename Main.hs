@@ -18,10 +18,22 @@ main = do
   setLocaleEncoding utf8 -- This is a must. I'm surprised åäö worked without.
   putStrLn "This is main."
 
-  let l1 = [(number_asker, ("number asker", "give a list of integers."))]
-  let la = [(input_asker, ("input asker", "give any string and print it.")), (word_operations, ("word operations", "give a list of strings and print them.")), (guesser, ("integer guesser", "give an integer and then guess it.")), (simplebool_xor, ("test xor operations", "prints some operations on a self-made xor.")), (lists_of_pairs, ("lists of pairs", "print members of pairs.")), (lambdas, ("lambdas", "print simple lambda tests")), (file_reading, ("file reading", "reads a predetermined file and prints its contents.")), (typing, ("typing", "prints the types of some expressions.")), (maybe_stuff, ("Maybe tests", "give some integers, use Maybe and print tests.")), (arraying, ("arrays", "print some arrays.")), (monad_test, ("monad test", "this doesn't do much yet."))]
-  let lz = [(calculations, ("calculations", "perform some calculations on a given integer list.")), (listing, ("zip a list", "zips a given integer list with a generated one.")), (my_mapping, ("my map", "redo the implementation of map and use it on the given integer list.")), (datatypes, ("datatypes", "do different tuple tests, a binary tree and PathfinderCharacter."))]
-  -- How to indent list on multiple lines without indentation error?
+  let l1 = [(number_asker,    ("ask number", "give a list of integers."))]
+  let la = [(input_asker,     ("ask input",  "give any string and print it."))
+          , (word_operations, ("word ops",   "give a list of strings and print them."))
+          , (guesser,         ("guess int",  "give an integer and then guess it."))
+          , (simplebool_xor,  ("xor ops",    "prints some operations on a self-made xor."))
+          , (lists_of_pairs,  ("pair lists", "print members of pairs."))
+          , (lambdas,         ("lambdas",    "print simple lambda tests"))
+          , (file_reading,    ("read file",  "reads a predetermined file and prints its contents."))
+          , (typing,          ("typing",     "prints the types of some expressions."))
+          , (maybe_stuff,     ("Maybe",      "give some integers, use Maybe and print tests."))
+          , (arraying,        ("arrays",     "print some arrays."))
+          , (monad_test,      ("monads",     "this doesn't do much yet."))]
+  let lz = [(calculations,   ("calcs",      "perform some calculations on a given integer list."))
+          , (listing,         ("zip list",   "zips a given integer list with a generated one."))
+          , (my_mapping,      ("my map",     "use a redone map on the given integer list."))
+          , (datatypes,       ("datatypes",  "tuple tests, a binary tree and PathfinderCharacter."))]
   let f1 = take (length l1) ['1'..]
   let fa = take (length la) ['a'..]
   let fz = take (length lz) ['z','y'..]
@@ -39,9 +51,12 @@ main = do
 main_loop f1 fa fz listn = do
   putStrLn ""
 
-  print_main1 (Map.toAscList f1)
-  print_maina (Map.toAscList fa)
-  print_mainz (Map.toAscList fz)
+  let la = Map.toAscList fa
+  max_len <- get_max_length la -- We just know that it's this list.
+
+  print_main (Map.toAscList f1) max_len
+  print_main la max_len
+  print_main (Map.toAscList fz) max_len
 
   input <- prompt "Type one of the above characters to run something, or empty to quit: "
 
@@ -70,21 +85,23 @@ main_loop f1 fa fz listn = do
                   putStrLn "Didn't find that character."
           main_loop f1 fa fz listn
 
--- The prints are identical save for the function type. How to do this better...
-print_main1 [] = putStr ""
-print_main1 (f:fs) = do
-  putStrLn (show (fst f) ++ ": " ++ fst (snd (snd f)) ++ " – " ++ snd (snd (snd f)))
-  print_main1 fs
+get_max_length :: [(Char, (a, (String, String)))] -> IO (Int)
+get_max_length [] = return 0
+get_max_length (l:ls) = do
+  let str = fst (snd (snd l))
+  let len = length str
+  lens <- get_max_length ls
+  return (max len lens)
 
-print_maina [] = putStr ""
-print_maina (f:fs) = do
-  putStrLn (show (fst f) ++ ": " ++ fst (snd (snd f)) ++ " – " ++ snd (snd (snd f)))
-  print_maina fs
-
-print_mainz [] = putStr ""
-print_mainz (f:fs) = do
-  putStrLn (show (fst f) ++ ": " ++ fst (snd (snd f)) ++ " – " ++ snd (snd (snd f)))
-  print_mainz fs
+print_main :: [(Char, (a, (String, String)))] -> Int -> IO ()
+print_main [] _ = putStr ""
+print_main (f:fs) m = do
+  let index = fst f
+  let name = fst (snd (snd f))
+  let spaces = take (m - length name) (repeat ' ')
+  let description = snd (snd (snd f))
+  putStrLn (show (index) ++ ": " ++ name ++ spaces ++ " – " ++ description)
+  print_main fs m
 
 --
 word_operations = do
