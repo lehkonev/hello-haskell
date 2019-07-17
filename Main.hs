@@ -8,9 +8,11 @@ import Datatypes
 -- Built-in:
 import GHC.IO.Encoding
 import System.IO
+import System.IO.Error -- isDoesNotExistError, isPermissionError
 import Data.Typeable
 import Data.Char
-import Data.Maybe
+import Data.Maybe -- fromJust, fromMaybe
+import Control.Exception -- try, tryJust
 import qualified Data.Map as Map
 import qualified Data.ByteString as Byte
 
@@ -222,6 +224,12 @@ lambdas = do
   putStrLn ("    some_f 5 4 = " ++ show (some_f 5 4))
 
 --
+exception_handler_fileread :: IOError -> Maybe String
+exception_handler_fileread er
+  | isDoesNotExistError er = Just "readFile: does not exist"
+  | isPermissionError   er = Just "readFile: permission denied"
+  | otherwise              = Nothing
+
 file_reading = do
   putStrLn ""
   putStrLn "File-reading:"
@@ -239,10 +247,11 @@ file_reading = do
 
   putStrLn "Read an arbitrary file:"
   file_n <- prompt "  Give a filename: "
-  file_c <- Byte.readFile file_n
-  putStrLn ("  Contents of the file \"" ++ file_n ++ "\":")
-  -- putStr doesn't work since file_c not a string but a Byte.ByteString.
-  print file_c
+  file_either_excep <- tryJust exception_handler_fileread (Byte.readFile file_n)
+  case file_either_excep of
+    Left  er   -> putStrLn er
+    -- putStr doesn't work since the content is Byte.ByteString, not String.
+    Right file -> print file
   putStrLn "  End of file."
   putStrLn "Here are some special characters, just in case: åäö λµ– 日本語"
 
