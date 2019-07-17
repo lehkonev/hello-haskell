@@ -11,6 +11,7 @@ import System.IO
 import Data.Typeable
 import Data.Char
 import qualified Data.Map as Map
+import qualified Data.ByteString as Byte
 
 
 main :: IO()
@@ -221,14 +222,26 @@ lambdas = do
 
 --
 file_reading = do
-  putStrLn "\nFile-reading:"
-  -- Note: the file needs to be utf8-encoded. And it still doesn't print åäö well.
-  file_content <- readFile "file1.txt"
-  putStrLn "  Contents of the file:"
+  putStrLn ""
+  putStrLn "File-reading:"
+  -- Note: the file needs to be utf8-encoded.
+  let filename = "file1.txt"
+  file_content <- readFile filename
+  putStrLn ("  Contents of the file \"" ++ filename ++ "\":")
+  -- print uses codes for special characters.
   print file_content
   putStrLn "  End of file."
   putStrLn "  Contents of the file in CAPITALS:"
-  print (map Data.Char.toUpper file_content)
+  -- putStr manages to print special characters properly.
+  putStr (map Data.Char.toUpper file_content)
+  putStrLn "  End of file."
+
+  putStrLn "Read an arbitrary file:"
+  file_n <- prompt "  Give a filename: "
+  file_c <- Byte.readFile file_n
+  putStrLn ("  Contents of the file \"" ++ file_n ++ "\":")
+  -- putStr doesn't work since file_c not a string but a Byte.ByteString.
+  print file_c
   putStrLn "  End of file."
   putStrLn "Here are some special characters, just in case: åäö λµ– 日本語"
 
