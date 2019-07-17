@@ -10,6 +10,7 @@ import GHC.IO.Encoding
 import System.IO
 import Data.Typeable
 import Data.Char
+import Data.Maybe
 import qualified Data.Map as Map
 import qualified Data.ByteString as Byte
 
@@ -69,19 +70,19 @@ main_loop f1 fa fz listn = do
         then do
           putStr "Current number list: "
           print listn
-          -- There is probably a better way to get out of Maybe...
+          -- Here is one safe way to get out of Maybe: a default value:
           list_new <- fst (maybe (number_asker,("","")) id (Map.lookup i f1))
           main_loop f1 fa fz (listn ++ list_new)
         else do
           if Map.member i fa
             then do
-              fst (maybe (input_asker,("","")) id (Map.lookup i fa))
-              --main_loop f1 fa fz listn
+              -- This would be an error if i wasn't in the map:
+              fst (fromJust (Map.lookup i fa))
             else
               if Map.member i fz
                 then do
-                  fst (maybe (calculations,("","")) id (Map.lookup i fz)) listn
-                  --main_loop f1 fa fz listn
+                  -- Another way, using a default value:
+                  fst (fromMaybe (calculations,("","")) (Map.lookup i fz)) listn
                 else do
                   putStrLn "Didn't find that character."
           main_loop f1 fa fz listn
