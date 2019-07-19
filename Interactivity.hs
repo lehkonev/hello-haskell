@@ -7,6 +7,7 @@ module Interactivity (
   prompt,
   prompt_int,
   prompt_int_m,
+  prompt_m_int,
   prompt_int_e)
     where
 
@@ -155,6 +156,14 @@ prompt_int_m text = do
   let int_from_maybe = (maybe 0 id read_maybe_int)
   putStrLn ("    -- Value and type of int_from_maybe: " ++ show int_from_maybe ++ " :: " ++ (show (typeOf int_from_maybe)) ++ " --")
   return int_from_maybe
+
+prompt_m_int :: String -> IO (Maybe Integer)
+prompt_m_int text = do
+  putStr text
+  hFlush stdout
+  something <- getLine
+  let read_maybe_int = readMaybe something :: Maybe Integer
+  return read_maybe_int
 
 prompt_int_e :: String -> IO (Either String Integer)
 prompt_int_e text = do

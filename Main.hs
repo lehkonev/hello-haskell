@@ -37,7 +37,8 @@ main = do
   let lz = [(calculations,   ("calcs",      "perform some calculations on a given integer list."))
           , (listing,         ("zip list",   "zips a given integer list with a generated one."))
           , (my_mapping,      ("my map",     "use a redone map on the given integer list."))
-          , (datatypes,       ("datatypes",  "tuple tests, a binary tree and PathfinderCharacter."))]
+          , (datatypes,       ("datatypes",  "tuple tests, a binary tree and PathfinderCharacter."))
+          , (functoring,      ("functors",   "applicative functor."))]
   let f1 = take (length l1) ['1'..]
   let fa = take (length la) ['a'..]
   let fz = take (length lz) ['z','y'..]
@@ -293,6 +294,46 @@ monad_test = do
   ('a':'s':'d':x:xs) <- getLine
   putStr "  Removed the asd: "
   putStrLn (x:xs)
+
+--
+functoring :: [Integer] -> IO ()
+functoring numbers = do
+  putStrLn ""
+  putStrLn "Functor test:"
+  putStrLn "  Triviality:"
+  let a  = Just ((fmap . (+)) 2) :: (Functor f, Num b) => Maybe (f b -> f b)
+  let a' =       (fmap . (+)) 2  :: (Functor f, Num b) => f b -> f b
+  let b  = Just [5,6,2]          :: Num a => Maybe [a]
+  let b' =      [5,6,2]          :: Num a => [a]
+  let c  = a <*> b  -- Since a and b are Maybe (Just), simply "a b" won't work.
+  let c' = a'    b' -- But here it does, since these aren't Maybe.
+  let c1 = a <*> pure b' -- If a non-Maybe thing is wrapped with pure,
+  let c2 = pure a' <*> b -- we can touch it with Maybe things.
+  let d  = a <*> Nothing
+  putStrLn ("    " ++ "      (fmap . (+)) 2 " ++ "          " ++ show b' ++ " = " ++ show c')
+  putStrLn ("    " ++ "Just ((fmap . (+)) 2)" ++ " <*> " ++ show b ++ " = " ++ show c)
+  putStrLn ("    " ++ "     ((fmap . (+)) 2)" ++ " <*> pure " ++ show b ++ " = " ++ show c1)
+  putStrLn ("    " ++ "pure ((fmap . (+)) 2)" ++ " <*> " ++ show b ++ " = " ++ show c2)
+  putStrLn ("    " ++ "Just ((fmap . (+)) 2)" ++ " <*> Nothing      = " ++ show d)
+
+  putStrLn "  Applicative functors:"
+  maybe_int_m <- prompt_m_int "    Give an integer for multiplication: "
+  putStrLn("    -- Type of maybe_int_m: " ++ (show (typeOf maybe_int_m)) ++ " --")
+
+  putStrLn "    Applicative functor mapping a Maybe over a Maybe:"
+  let single_n = head (numbers ++ [1]) -- Just in case numbers is empty.
+  let mult_f = Just ((*) single_n)
+  putStrLn("    -- Type of mult_f: " ++ (show (typeOf mult_f)) ++ " --")
+  let mapped1 = mult_f <*> maybe_int_m
+  putStrLn("    -- Type of mapped1: " ++ (show (typeOf mapped1)) ++ " --")
+  putStrLn ("    ((*) " ++ show single_n ++ ") <*> " ++ show maybe_int_m ++ " = " ++ show mapped1)
+
+  let mult_g = (Just (*)) <*> maybe_int_m
+  putStrLn("    -- Type of mult_g: " ++ (show (typeOf mult_g)) ++ " --")
+  let nums = Just numbers
+  let mapped2 = fmap <$> mult_g <*> nums
+  putStrLn("    -- Type of mapped2: " ++ (show (typeOf mapped2)) ++ " --")
+  putStrLn ("    ((*) " ++ show maybe_int_m ++ ") <*> " ++ show nums ++ " = " ++ show mapped2)
 
 ------------------------------------------------------------------------------
 -- Helper functions:
